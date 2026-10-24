@@ -86,7 +86,7 @@ class Runtime:
         self.emit("hot", f"{run['template']} signature {info['sig']} seen {info['count']}x "
                   f"({info['successes']} successful runs)")
         if steps is not None:
-            self._compile(run["template"], steps, info["sig"])
+            run["compiled_after"] = self._compile(run["template"], steps, info["sig"])
 
     def _compile(self, template_id, steps, sig):
         prev = hotness.compiled(template_id)

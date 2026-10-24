@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hotpath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500&family=Libre+Baskerville&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page: #181818; --deep: #111111; --card: #1f1f1f; --row: #262626; --pop: #323232;
+    --text: #eeeeee; --muted: #a4a19b; --ph: #5e5d59; --line: #262626; --line2: #4b4b4b;
+    --accent: #2b7fff;
+    --serif: "Libre Baskerville", Georgia, serif; --sans: Inter, system-ui, sans-serif; --mono: "Fira Code", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--text); font: 400 14px/1.5 var(--sans); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1, h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.025em; margin: 0; }
+  h1 { font-size: 48px; line-height: 1.1; }
+  h2 { font-size: 20px; margin-bottom: 12px; }
+  .sub { color: var(--muted); margin-top: 6px; }
+  .ridge { display: block; width: 100%; height: 28px; margin: 20px 0 8px; }
+  section { margin-top: 40px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .grow { flex: 1; }
+  select, input { background: var(--card); color: var(--text); border: 1px solid var(--line2); border-radius: 4px; padding: 7px 10px; font: inherit; }
+  input::placeholder { color: var(--ph); }
+  select:focus, input:focus, button:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--accent); border-color: var(--accent); }
+  button { background: transparent; color: var(--text); border: 1px solid var(--text); border-radius: 4px; padding: 7px 14px; font: inherit; cursor: pointer; }
+  button:hover { background: var(--row); }
+  button:disabled { opacity: .5; cursor: default; }
+  .label { font: 500 11px/1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .mono { font-family: var(--mono); }
+  a { color: var(--accent); }
+
+  .tier { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px 24px; border: 1px solid var(--line2); border-radius: 8px; background: var(--deep); }
+  .tier-name { font-family: var(--serif); font-size: 44px; letter-spacing: -0.025em; line-height: 1; }
+  .tier-detail { color: var(--muted); font-family: var(--mono); font-size: 13px; text-align: right; }
+  .tier[data-tier="compiled"] { border-color: var(--accent); }
+  .tier[data-tier="compiled"] .tier-name { color: var(--accent); }
+  .tier[data-tier="deopt"] { border: 1px solid var(--text); }
+  .tier[data-tier="deopt"] .tier-name { font-family: var(--sans); font-size: 30px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.18em; }
+  .tier[data-tier="deopt"] .tier-name .step { font-family: var(--mono); letter-spacing: 0; text-transform: none; }
+  .tier[data-tier="idle"] .tier-name { color: var(--muted); }
+
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .big { font-family: var(--serif); font-size: 40px; letter-spacing: -0.025em; line-height: 1.1; }
+  .stats .card.accent .big:first-child { }
+  .stats .compiled .big { color: var(--accent); }
+
+  .panes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .log, .code { background: var(--deep); border: 1px solid var(--line); border-radius: 8px; font: 12.5px/1.6 var(--mono); padding: 12px; height: 380px; overflow: auto; white-space: pre; margin: 0; }
+  .log .ev { display: block; }
+  .log .ts { color: var(--ph); }
+  .log .k { color: var(--muted); }
+  .log .ev-deopt { border: 1px solid var(--text); border-radius: 4px; padding: 0 6px; margin: 2px 0; }
+  .log .ev-compiled .k, .log .ev-tier .k { color: var(--accent); }
+  .tabs { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .tab { padding: 4px 10px; font-size: 12px; border-color: var(--line2); color: var(--muted); }
+  .tab[aria-selected="true"] { border-color: var(--text); color: var(--text); }
+  .code .add { display: block; color: var(--text); border-left: 2px solid var(--accent); padding-left: 6px; background: rgba(43,127,255,.08); }
+  .code .del { display: block; color: var(--ph); text-decoration: line-through; border-left: 2px solid var(--line2); padding-left: 6px; }
+  .code .hunk { display: block; color: var(--muted); }
+  .code .ctx { display: block; padding-left: 8px; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { font: 500 11px/1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line2); }
+  td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr:hover { background: var(--row); }
+  td.num { font-family: var(--mono); font-size: 13px; }
+  .badge { display: inline-block; font: 500 11px/1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid var(--line2); border-radius: 4px; padding: 4px 6px; color: var(--muted); }
+  .badge.compiled { border-color: var(--accent); color: var(--accent); }
+  .badge.deopt { border-color: var(--text); color: var(--text); }
+  .result { font-family: var(--mono); font-size: 12px; color: var(--muted); max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .empty { color: var(--ph); padding: 16px 8px; }
+  .site-state { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Hotpath</h1>
+    <div class="sub">A JIT compiler for browser agents. Interpret with an LLM, compile the hot path, deoptimize when the site changes.</div>
+    <svg class="ridge" viewBox="0 0 1200 28" preserveAspectRatio="none" aria-hidden="true">
+      <polyline fill="none" stroke="#a4a19b" stroke-width="1" vector-effect="non-scaling-stroke"
+        points="0,26 90,20 150,23 230,11 290,17 360,6 420,15 470,12 540,21 610,9 650,13 720,3 790,16 860,10 930,19 1000,8 1060,15 1130,12 1200,22"/>
+    </svg>
+  </header>
+
+  <section class="card" aria-label="Controls">
+    <div class="row">
+      <select id="template" aria-label="Task template"></select>
+      <input id="param" class="grow" aria-label="Task parameter" placeholder="">
+      <button id="run">Run task</button>
+      <button id="toggle">Toggle redesign</button>
+      <button id="reset">Reset</button>
+      <span class="site-state">Site: <span id="site-state" class="mono">original</span></span>
+    </div>
+  </section>
+
+  <section>
+    <div id="tier" class="tier" data-tier="idle">
+      <div>
+        <div class="label">Current tier</div>
+        <div id="tier-name" class="tier-name">Idle</div>
+      </div>
+      <div id="tier-detail" class="tier-detail">no runs yet</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Interpreted vs compiled</h2>
+    <div class="stats">
+      <div class="card" id="stat-interp">
+        <div class="label">First interpreted run</div>
+        <div class="stat-grid">
+          <div><div class="big" data-k="time">—</div><div class="label">time</div></div>
+          <div><div class="big" data-k="llm">—</div><div class="label">LLM calls</div></div>
+          <div><div class="big" data-k="cost">—</div><div class="label">cost</div></div>
+        </div>
+      </div>
+      <div class="card compiled" id="stat-compiled">
+        <div class="label">Latest compiled run</div>
+        <div class="stat-grid">
+          <div><div class="big" data-k="time">—</div><div class="label">time</div></div>
+          <div><div class="big" data-k="llm">—</div><div class="label">LLM calls</div></div>
+          <div><div class="big" data-k="cost">—</div><div class="label">cost</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panes">
+    <div>
+      <h2>Event log</h2>
+      <pre id="log" class="log" aria-label="Event log"></pre>
+    </div>
+    <div>
+      <h2>Compiled code</h2>
+      <div class="tabs">
+        <button class="tab" id="tab-code" aria-selected="true">Current</button>
+        <button class="tab" id="tab-diff" aria-selected="false" disabled>Diff vs previous</button>
+        <span id="code-file" class="mono" style="color:var(--muted);font-size:12px"></span>
+      </div>
+      <pre id="code" class="code" aria-label="Compiled code"><span class="empty">Nothing compiled yet. A task compiles after 2 successful runs with the same trace.</span></pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Runs</h2>
+    <div class="card" style="padding:0 12px">
+      <table id="runs">
+        <thead><tr><th>#</th><th>Task</th><th>Param</th><th>Tier</th><th>Version</th><th>Time</th><th>LLM calls</th><th>Cost</th><th>Result</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="bench-section" hidden>
+    <h2>Benchmark</h2>
+    <div class="card" style="padding:0 12px">
+      <table id="bench">
+        <thead><tr><th>Phase</th><th>Tier</th><th>Runs</th><th>p50</th><th>p95</th><th>Mean cost</th><th>LLM calls / run</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div id="bench-summary" class="sub" style="padding:10px 0"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+let state = null, codeView = "code", codeTemplate = null;
+
+const fmtMs = ms => ms == null ? "—" : ms >= 1000 ? (ms / 1000).toFixed(1) + "s" : Math.round(ms) + "ms";
+const fmtCost = c => c == null ? "—" : "$" + (c === 0 ? "0" : c.toFixed(4));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+
+function setTier(tier, detail, step) {
+  const el = $("#tier");
+  el.dataset.tier = tier;
+  const name = $("#tier-name");
+  if (tier === "deopt") name.innerHTML = `Deopt @ <span class="step">step ${esc(step)}</span>`;
+  else name.textContent = {interpreted: "Interpreted", compiled: "Compiled", idle: "Idle", running: "Running"}[tier] || tier;
+  $("#tier-detail").textContent = detail || "";
+}
+
+function logEvent(ev) {
+  const log = $("#log");
+  const t = new Date(ev.ts * 1000).toLocaleTimeString([], {hour12: false});
+  const line = document.createElement("span");
+  line.className = "ev ev-" + ev.kind;
+  line.innerHTML = `<span class="ts">${t}</span> <span class="k">${esc(ev.kind.padEnd(9))}</span> ${esc(ev.msg)}`;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+
+function renderStats() {
+  const runs = (state && state.runs) || [];
+  const interp = runs.find(r => r.tier === "interpreted" && r.ok);
+  const comp = [...runs].reverse().find(r => r.tier === "compiled" && r.ok);
+  for (const [id, r] of [["#stat-interp", interp], ["#stat-compiled", comp]]) {
+    const card = $(id);
+    card.querySelector('[data-k="time"]').textContent = r ? fmtMs(r.ms) : "—";
+    card.querySelector('[data-k="llm"]').textContent = r ? r.llm_calls : "—";
+    card.querySelector('[data-k="cost"]').textContent = r ? fmtCost(r.cost) : "—";
+  }
+}
+
+function renderRuns() {
+  const tb = $("#runs tbody");
+  const runs = state.runs;
+  if (!runs.length) { tb.innerHTML = `<tr><td colspan="9" class="empty">No runs yet.</td></tr>`; return; }
+  tb.innerHTML = runs.map((r, i) => {
+    const tier = r.tier === "deopt" ? `deopt @ ${r.deopt_step}` : r.tier;
+    const ver = r.recompiled_to ? `v${r.version} → v${r.recompiled_to}` : r.version ? `v${r.version}` : (r.compiled_after ? `→ v${r.compiled_after}` : "—");
+    const res = r.ok ? JSON.stringify(r.result) : (r.error || "failed");
+    return `<tr><td class="num">${i + 1}</td><td>${esc(r.template)}</td><td>${esc(Object.values(r.params)[0])}</td>
+      <td><span class="badge ${r.tier}">${esc(tier)}</span></td><td class="num">${esc(ver)}</td>
+      <td class="num">${fmtMs(r.ms)}</td><td class="num">${r.llm_calls}</td><td class="num">${fmtCost(r.cost)}</td>
+      <td class="result" title="${esc(res)}">${esc(res)}</td></tr>`;
+  }).reverse().join("");
+}
+
+function renderCode() {
+  const tid = codeTemplate || $("#template").value;
+  const info = state.compiled[tid];
+  const pre = $("#code");
+  const diffTab = $("#tab-diff");
+  if (!info) {
+    pre.innerHTML = `<span class="empty">Nothing compiled for ${esc(tid)} yet. A task compiles after 2 successful runs with the same trace.</span>`;
+    $("#code-file").textContent = ""; diffTab.disabled = true; codeView = "code";
+  } else {
+    diffTab.disabled = !info.diff;
+    if (!info.diff && codeView === "diff") codeView = "code";
+    $("#code-file").textContent = info.file;
+    if (codeView === "diff") {
+      pre.innerHTML = info.diff.split("\n").map(l =>
+        l.startsWith("+") && !l.startsWith("+++") ? `<span class="add">${esc(l)}</span>` :
+        l.startsWith("-") && !l.startsWith("---") ? `<span class="del">${esc(l)}</span>` :
+        l.startsWith("@@") ? `<span class="hunk">${esc(l)}</span>` : `<span class="ctx">${esc(l) || " "}</span>`).join("");
+    } else pre.textContent = info.code;
+  }
+  $("#tab-code").setAttribute("aria-selected", codeView === "code");
+  diffTab.setAttribute("aria-selected", codeView === "diff");
+}
+
+function renderBench() {
+  const b = state.bench;
+  if (!b) return;
+  $("#bench-section").hidden = false;
+  $("#bench tbody").innerHTML = b.rows.map(r => `<tr><td>${esc(r.phase)}</td><td><span class="badge ${r.tier}">${esc(r.tier)}</span></td>
+    <td class="num">${r.runs}</td><td class="num">${fmtMs(r.p50_ms)}</td><td class="num">${fmtMs(r.p95_ms)}</td>
+    <td class="num">${fmtCost(r.mean_cost)}</td><td class="num">${r.llm_calls_per_run.toFixed(2)}</td></tr>`).join("");
+  $("#bench-summary").textContent = `Deopt rate after toggle: ${(b.deopt_rate * 100).toFixed(1)}% · Correctness (compiled == interpreted): ${(b.correctness_rate * 100).toFixed(1)}% · Total cost: ${fmtCost(b.total_cost)}`;
+}
+
+async function refresh() {
+  state = await (await fetch("/api/state")).json();
+  $("#site-state").textContent = state.redesign ? "redesigned" : "original";
+  renderStats(); renderRuns(); renderCode(); renderBench();
+}
+
+function onEvent(ev) {
+  logEvent(ev);
+  if (ev.kind === "run_start") { codeTemplate = ev.run.template; setTier("running", `${ev.run.template} · ${Object.values(ev.run.params)[0]}`); }
+  if (ev.kind === "tool" && $("#tier").dataset.tier === "running") setTier("interpreted", "LLM driving the browser");
+  if (ev.kind === "tier") setTier("compiled", ev.msg.replace(/^COMPILED /, ""));
+  if (ev.kind === "deopt") setTier("deopt", ev.msg, ev.step);
+  if (ev.kind === "compiled" && ev.version > 1) codeView = "diff";
+  if (ev.kind === "run_end") {
+    const r = ev.run;
+    const detail = `${fmtMs(r.ms)} · ${r.llm_calls} LLM calls · ${fmtCost(r.cost)}` + (r.recompiled_to ? ` · recompiled to v${r.recompiled_to}` : "");
+    setTier(r.tier, detail, r.deopt_step);
+  }
+  if (["run_end", "compiled", "toggle", "reset"].includes(ev.kind)) refresh();
+  if (ev.kind === "reset") { setTier("idle", "no runs yet"); codeView = "code"; codeTemplate = null; }
+}
+
+async function init() {
+  await refresh();
+  const sel = $("#template");
+  sel.innerHTML = Object.keys(state.templates).map(k => `<option value="${k}">${k} {${state.templates[k].param}}</option>`).join("");
+  const syncPlaceholder = () => { const t = state.templates[sel.value]; $("#param").placeholder = `${t.param}, e.g. ${t.default}`; };
+  sel.addEventListener("change", () => { syncPlaceholder(); codeTemplate = sel.value; renderCode(); });
+  syncPlaceholder();
+  $("#run").addEventListener("click", () => fetch("/api/run", {method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({template: sel.value, param: $("#param").value})}));
+  $("#toggle").addEventListener("click", () => fetch("/toggle", {method: "POST"}));
+  $("#reset").addEventListener("click", () => fetch("/api/reset", {method: "POST"}));
+  $("#tab-code").addEventListener("click", () => { codeView = "code"; renderCode(); });
+  $("#tab-diff").addEventListener("click", () => { codeView = "diff"; renderCode(); });
+  const last = [...state.runs].pop();
+  if (last) setTier(last.tier, `${fmtMs(last.ms)} · ${last.llm_calls} LLM calls · ${fmtCost(last.cost)}`, last.deopt_step);
+  const es = new EventSource("/api/events");
+  es.onmessage = m => onEvent(JSON.parse(m.data));
+}
+init();
+</script>
+</body>
+</html>

@@ -16,3 +16,7 @@
 - Compiled steps store slotted args ({"slot": "product"}); generated code reads params[...] so one compiled file serves every product/category/term.
 - A finalize miss is reported as GuardFailure at step N (one past the last action), so deopt can still resume from the current page.
 - Deopt hands the interpreter the live page (no reload) plus the completed prefix with params filled back in; the suffix is slotted, spliced onto steps 0..k-1, normalized, and compiled as the next version. If the deopt interpreter fails, the run fails and the old version stays.
+- Dashboard: one Playwright worker thread owns the browser and runs queued jobs; the runtime emits events into an in-memory bus that /api/events streams as SSE (replayed from the start on connect).
+- `python -m hotpath [--show] [--fake] [--port]` is the entrypoint; --show runs the agent browser headed, --fake swaps in the scripted LLM for offline demos.
+- UI tests stub the Google Fonts request with empty CSS so they run offline with no console errors.
+- Code diff marks added lines with the accent border and removed lines struck through in placeholder grey (no green/red, per the Altitude rules).
