@@ -15,3 +15,4 @@
 - hot.json holds per-template signature counts/traces plus the registry of the active compiled version; compiled modules are exec'd from source each run (no stale bytecode).
 - Compiled steps store slotted args ({"slot": "product"}); generated code reads params[...] so one compiled file serves every product/category/term.
 - A finalize miss is reported as GuardFailure at step N (one past the last action), so deopt can still resume from the current page.
+- Deopt hands the interpreter the live page (no reload) plus the completed prefix with params filled back in; the suffix is slotted, spliced onto steps 0..k-1, normalized, and compiled as the next version. If the deopt interpreter fails, the run fails and the old version stays.

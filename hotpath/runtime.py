@@ -2,7 +2,8 @@
 import time
 import uuid
 
-from hotpath import compiler, hotness, interpreter, store, tasks
+from hotpath import compiler, hotness, interpreter, store, tasks, trace
+from hotpath.guards import GuardFailure
 
 
 def _noop_emit(kind, msg, **data):
@@ -58,9 +59,27 @@ class Runtime:
         run["tier"], run["version"] = "compiled", entry["version"]
         self.emit("tier", f"COMPILED v{entry['version']}: {entry['path']}", tier="compiled")
         mod = compiler.load(entry["path"])
-        run["result"] = mod.run(page, run["params"])
-        run["ok"] = True
-        run["trace"] = [{k: s[k] for k in ("step", "action", "selector", "args")} for s in entry["steps"]]
+        try:
+            run["result"] = mod.run(page, run["params"])
+            run["ok"] = True
+            run["trace"] = [{k: s[k] for k in ("step", "action", "selector", "args")} for s in entry["steps"]]
+        except GuardFailure as g:
+            self._deopt(page, run, entry, g)
+
+    def _deopt(self, page, run, entry, g: GuardFailure):
+        k = g.step
+        run["tier"], run["deopt_step"] = "deopt", k
+        self.emit("deopt", f"deoptimizing at step {k}: {g.reason}", tier="deopt", step=k)
+        prefix = entry["steps"][:k]
+        res = self._interpret(page, run, completed_steps=trace.unslot(prefix, run["params"]))
+        if not res.ok:
+            self.emit("error", f"deopt interpreter failed: {res.error}")
+            return
+        suffix = trace.slot(res.trace, run["params"])
+        steps = trace.splice(prefix, suffix)
+        self.emit("splice", f"spliced steps 0..{k - 1} + {len(suffix)} new step(s) -> {len(steps)} steps")
+        run["trace"] = [{k_: s[k_] for k_ in ("step", "action", "selector", "args")} for s in steps]
+        run["recompiled_to"] = self._compile(run["template"], steps, trace.signature(steps))
 
     def _maybe_compile(self, run, res):
         steps, info = hotness.record(run["template"], res.trace, run["params"])
@@ -86,6 +105,7 @@ class Runtime:
         run["tokens_in"] += res.tokens_in
         run["tokens_out"] += res.tokens_out
         run["cost"] = round(run["cost"] + res.cost, 6)
-        run["trace"] = [{k: s[k] for k in ("step", "action", "selector", "args")} for s in res.trace]
+        if completed_steps is None:
+            run["trace"] = [{k: s[k] for k in ("step", "action", "selector", "args")} for s in res.trace]
         run["ok"], run["result"], run["error"] = res.ok, res.result, res.error
         return res
