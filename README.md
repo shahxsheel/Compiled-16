@@ -2,6 +2,10 @@
 
 An LLM browser agent is a slow, expensive interpreter: every run asks Claude to read the page and decide each click. Hotpath records what the agent does and counts identical traces per task. Once a trace is hot (2 successful runs with the same signature), a deterministic compiler (no LLM) turns it into plain Playwright code, with a guard before every step. Later runs use the compiled code: about 140 ms and $0, against about 7 s and $0.014 interpreted. When the site changes and a guard fails, Hotpath **deoptimizes at that exact step**. The LLM takes over from the live page, finishes the task, and its new steps are spliced onto the steps that still worked and recompiled as the next version.
 
+![Dashboard after a live deopt: DEOPT @ step 1, v1 -> v2 diff](docs/dashboard-deopt.png)
+
+*Dashboard right after a real-model deopt (run 4 of the demo script): the tier indicator, live SSE log, stat cards, runs table, v1→v2 diff, and benchmark table.*
+
 ## Architecture
 
 ```

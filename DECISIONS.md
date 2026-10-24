@@ -21,3 +21,5 @@
 - UI tests stub the Google Fonts request with empty CSS so they run offline with no console errors.
 - Code diff marks added lines with the accent border and removed lines struck through in placeholder grey (no green/red, per the Altitude rules).
 - bench.py runs in its own state dir (.hotpath/bench) so it never clobbers the demo; it writes bench.json at the project root, which the dashboard and README read. Params vary per run so compiled runs are tested on inputs the interpreter never saw.
+- Tier indicator shows the compiled version (e.g. "v2 · 137ms · 0 LLM calls"), and Reset clears the server event buffer and the on-page log, so a fresh demo starts with an empty log even after a reload.
+- Verified the full demo sequence in the real dashboard UI with the real model (headless Playwright clicking Run/Toggle/Reset); screenshot saved as docs/dashboard-deopt.png.

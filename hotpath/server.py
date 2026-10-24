@@ -34,6 +34,10 @@ class Bus:
             self.events.append(ev)
             del self.events[:-500]
 
+    def clear(self) -> None:
+        with self.lock:
+            self.events.clear()
+
     def since(self, last_id: int) -> list[dict]:
         with self.lock:
             return [e for e in self.events if e["id"] > last_id]
@@ -116,6 +120,7 @@ def api_run(req: RunRequest):
 def api_reset():
     store.reset()
     SITE["redesign"] = False
+    BUS.clear()
     BUS.emit("reset", "state cleared: runs, hot.json, compiled/; redesign OFF")
     return {"ok": True}
 

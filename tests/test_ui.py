@@ -89,3 +89,19 @@ def test_bench_table_shown_when_bench_json_exists(rt, server_url, fresh):
     finally:
         page.close()
         (store.home() / "bench.json").unlink()
+
+
+def test_reset_clears_log_and_runs(ui):
+    page, errors = ui
+    page.select_option("#template", "stock_for")
+    run_and_wait(page, 1, "Headlamp")
+    assert "run_end" in page.locator("#log").inner_text()
+    page.click("#reset")
+    page.wait_for_function("document.querySelector('#runs tbody').innerText.includes('No runs yet')")
+    log = page.locator("#log").inner_text()
+    assert "state cleared" in log and "run_end" not in log
+    assert page.locator("#tier").get_attribute("data-tier") == "idle"
+    page.reload()
+    page.wait_for_timeout(500)
+    assert "run_end" not in page.locator("#log").inner_text()
+    assert errors == []

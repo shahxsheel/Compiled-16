@@ -265,6 +265,7 @@ async function refresh() {
 }
 
 function onEvent(ev) {
+  if (ev.kind === "reset") $("#log").textContent = "";
   logEvent(ev);
   if (ev.kind === "run_start") { codeTemplate = ev.run.template; setTier("running", `${ev.run.template} · ${Object.values(ev.run.params)[0]}`); }
   if (ev.kind === "tool" && $("#tier").dataset.tier === "running") setTier("interpreted", "LLM driving the browser");
@@ -273,7 +274,7 @@ function onEvent(ev) {
   if (ev.kind === "compiled" && ev.version > 1) codeView = "diff";
   if (ev.kind === "run_end") {
     const r = ev.run;
-    const detail = `${fmtMs(r.ms)} · ${r.llm_calls} LLM calls · ${fmtCost(r.cost)}` + (r.recompiled_to ? ` · recompiled to v${r.recompiled_to}` : "");
+    const detail = (r.tier === "compiled" ? `v${r.version} · ` : "") + `${fmtMs(r.ms)} · ${r.llm_calls} LLM calls · ${fmtCost(r.cost)}` + (r.recompiled_to ? ` · recompiled to v${r.recompiled_to}` : "");
     setTier(r.tier, detail, r.deopt_step);
   }
   if (["run_end", "compiled", "toggle", "reset"].includes(ev.kind)) refresh();
