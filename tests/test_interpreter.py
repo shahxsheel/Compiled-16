@@ -3,16 +3,6 @@ import os
 import pytest
 
 from hotpath import store, tasks
-from hotpath.runtime import Runtime
-
-
-@pytest.fixture(scope="module")
-def rt(server_url):
-    from hotpath.fake_llm import FakeLLM
-
-    r = Runtime(llm_factory=FakeLLM)
-    yield r
-    r.close()
 
 
 @pytest.mark.parametrize("template_id", list(tasks.TEMPLATES))

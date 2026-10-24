@@ -30,6 +30,13 @@ def guard_element(page, step: int, selector: str, fingerprint: dict) -> None:
         raise GuardFailure(step, f"fingerprint mismatch on {selector}: {diff}")
 
 
+def select_option(page, selector: str, text: str) -> None:
+    """Choose a <select> option by its text, case-insensitively."""
+    options = page.locator(f"{selector} option").all_inner_texts()
+    label = next((o for o in options if o.strip().lower() == text.strip().lower()), text)
+    page.select_option(selector, label=label, timeout=3000)
+
+
 def check_table(step: int, table: dict | None) -> dict:
     """Expected columns present and every price well-formed."""
     if table is None:

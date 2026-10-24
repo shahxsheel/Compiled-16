@@ -1,6 +1,7 @@
 """On-disk state: runs.json, hot.json, compiled/. Rooted at $HOTPATH_HOME (default: project root)."""
 import json
 import os
+import shutil
 import threading
 from pathlib import Path
 
@@ -48,5 +49,4 @@ def append_run(run: dict) -> None:
 def reset() -> None:
     for name in ("runs.json", "hot.json"):
         (home() / name).unlink(missing_ok=True)
-    for f in compiled_dir().glob("*"):
-        f.unlink()
+    shutil.rmtree(home() / "compiled", ignore_errors=True)

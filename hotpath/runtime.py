@@ -2,7 +2,7 @@
 import time
 import uuid
 
-from hotpath import interpreter, store, tasks
+from hotpath import compiler, hotness, interpreter, store, tasks
 
 
 def _noop_emit(kind, msg, **data):
@@ -38,7 +38,13 @@ class Runtime:
         t0 = time.perf_counter()
         page = self._new_page()
         try:
-            self._interpret(page, run)
+            entry = hotness.compiled(template_id)
+            if entry:
+                self._run_compiled(page, run, entry)
+            else:
+                res = self._interpret(page, run)
+                if res.ok:
+                    self._maybe_compile(run, res)
         finally:
             page.close()
         run["ms"] = round((time.perf_counter() - t0) * 1000)
@@ -47,6 +53,30 @@ class Runtime:
         self.emit("run_end", f"run {run['id']} {run['tier']} ok={run['ok']} {run['ms']}ms "
                   f"llm_calls={run['llm_calls']} cost=${run['cost']:.4f}", run=run)
         return run
+
+    def _run_compiled(self, page, run, entry):
+        run["tier"], run["version"] = "compiled", entry["version"]
+        self.emit("tier", f"COMPILED v{entry['version']}: {entry['path']}", tier="compiled")
+        mod = compiler.load(entry["path"])
+        run["result"] = mod.run(page, run["params"])
+        run["ok"] = True
+        run["trace"] = [{k: s[k] for k in ("step", "action", "selector", "args")} for s in entry["steps"]]
+
+    def _maybe_compile(self, run, res):
+        steps, info = hotness.record(run["template"], res.trace, run["params"])
+        self.emit("hot", f"{run['template']} signature {info['sig']} seen {info['count']}x "
+                  f"({info['successes']} successful runs)")
+        if steps is not None:
+            self._compile(run["template"], steps, info["sig"])
+
+    def _compile(self, template_id, steps, sig):
+        prev = hotness.compiled(template_id)
+        version = (prev["version"] if prev else 0) + 1
+        path = compiler.compile_trace(template_id, steps, version, sig)
+        hotness.set_compiled(template_id, version, str(path), steps, sig)
+        self.emit("compiled", f"compiled {template_id} -> {path.name} ({len(steps)} steps)",
+                  template=template_id, version=version)
+        return version
 
     def _interpret(self, page, run, completed_steps=None):
         llm = self.llm_factory() if self.llm_factory else None

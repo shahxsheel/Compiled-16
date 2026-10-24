@@ -32,3 +32,27 @@ def server_url(tmp_path_factory):
     yield f"http://127.0.0.1:{port}"
     server.should_exit = True
     t.join(timeout=5)
+
+
+@pytest.fixture(scope="session")
+def rt(server_url):
+    from hotpath.fake_llm import FakeLLM
+    from hotpath.runtime import Runtime
+
+    r = Runtime(llm_factory=FakeLLM)
+    yield r
+    r.close()
+
+
+@pytest.fixture
+def fresh(server_url):
+    """Clean state and the original (non-redesigned) site."""
+    import httpx
+
+    from hotpath import store
+    from hotpath.server import SITE
+
+    store.reset()
+    SITE["redesign"] = False
+    yield
+    SITE["redesign"] = False

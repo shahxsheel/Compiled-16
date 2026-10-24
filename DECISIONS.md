@@ -12,3 +12,6 @@
 - The scripted FakeLLM reads the same observation text as the real model, so it also handles deopt (it continues from whatever page state it is handed).
 - Run correctness is checked against ground truth from the catalog (for a correct interpreter that equals compiled == interpreted).
 - State (runs.json, hot.json, compiled/) lives under $HOTPATH_HOME, default project root; tests use a temp dir.
+- hot.json holds per-template signature counts/traces plus the registry of the active compiled version; compiled modules are exec'd from source each run (no stale bytecode).
+- Compiled steps store slotted args ({"slot": "product"}); generated code reads params[...] so one compiled file serves every product/category/term.
+- A finalize miss is reported as GuardFailure at step N (one past the last action), so deopt can still resume from the current page.
