@@ -72,3 +72,20 @@ def test_compile_toggle_deopt_and_diff(ui, server_url):
     run_and_wait(page, 5, "Gel Pen Pack")
     page.wait_for_function("document.querySelector('#tier').dataset.tier === 'compiled'")
     assert errors == []
+
+
+def test_bench_table_shown_when_bench_json_exists(rt, server_url, fresh):
+    import shutil
+
+    shutil.copy(store.ROOT / "bench.json", store.home() / "bench.json")
+    page = rt.browser.new_page()
+    page.route(re.compile(r"https://fonts\.(googleapis|gstatic)\.com/.*"),
+               lambda route: route.fulfill(status=200, content_type="text/css", body=""))
+    try:
+        page.goto(server_url + "/")
+        page.wait_for_selector("#bench-section:not([hidden])")
+        assert page.locator("#bench tbody tr").count() >= 3
+        assert "Deopt rate" in page.locator("#bench-summary").inner_text()
+    finally:
+        page.close()
+        (store.home() / "bench.json").unlink()

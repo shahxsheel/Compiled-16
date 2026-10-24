@@ -1,0 +1,50 @@
+{
+  "model": "claude-sonnet-5-5",
+  "runs_per_task_per_phase": 10,
+  "rows": [
+    {
+      "phase": "before",
+      "tier": "interpreted",
+      "runs": 6,
+      "p50_ms": 6867.5,
+      "p95_ms": 10526,
+      "mean_cost": 0.013772666666666666,
+      "llm_calls_per_run": 4
+    },
+    {
+      "phase": "before",
+      "tier": "compiled",
+      "runs": 24,
+      "p50_ms": 137.0,
+      "p95_ms": 164,
+      "mean_cost": 0.0,
+      "llm_calls_per_run": 0
+    },
+    {
+      "phase": "after",
+      "tier": "compiled",
+      "runs": 27,
+      "p50_ms": 138,
+      "p95_ms": 161,
+      "mean_cost": 0.0,
+      "llm_calls_per_run": 0
+    },
+    {
+      "phase": "after",
+      "tier": "deopt",
+      "runs": 3,
+      "p50_ms": 5925,
+      "p95_ms": 7241,
+      "mean_cost": 0.010239999999999999,
+      "llm_calls_per_run": 3
+    }
+  ],
+  "deopt_rate": 0.1,
+  "correctness_rate": 1.0,
+  "interpreted_correctness_rate": 1.0,
+  "success_rate": 1.0,
+  "total_cost": 0.113356,
+  "total_llm_calls": 33,
+  "all_interpreted_cost_estimate": 0.82636,
+  "generated_at": "2026-10-24 16:44:50"
+}
