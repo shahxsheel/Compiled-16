@@ -67,7 +67,8 @@ TEMPLATES = {
 
 
 def start_url(template_id: str, base_url: str) -> str:
-    return TEMPLATES[template_id].get("start_url") or f"{base_url}/shop"
+    url = TEMPLATES[template_id].get("start_url") or "{base_url}/shop"
+    return url.replace("{base_url}", base_url)
 
 
 def table_spec(template_id: str) -> dict:
@@ -125,7 +126,7 @@ def _stock(v: str) -> int:
     try:
         return int(str(v).replace(",", ""))
     except ValueError:
-        raise GuardFailure(-1, f"finalize: stock {v!r} is not an integer")
+        raise GuardFailure(-1, f"finalize: stock {v!r} is not an integer", kind="semantic")
 
 
 def finalize_price_of(tables, params):
@@ -174,3 +175,37 @@ def ground_truth(template_id: str, params: dict):
         return [{"name": p["name"], "price": p["price"], "stock": p["stock"]} for p in rows]
     rows = shop.search(params["term"])
     return {"stock": rows[0]["stock"]} if rows else None
+
+
+def register_lookup(template_id: str, spec: dict) -> None:
+    """Declare a task without Python: find the table row whose `match_column` equals (or contains) the param,
+    return `return_columns` (ints for `int_columns`). Used by `hotpath ci` specs."""
+    param, match_col = spec["param"], spec["match_column"]
+    ret, ints = list(spec["return_columns"]), set(spec.get("int_columns", []))
+    contains = spec.get("match", "equals") == "contains"
+
+    def finalize(tables, params):
+        want = str(params[param]).strip().lower()
+        for r in _rows(tables):
+            cell = str(r.get(match_col, "")).strip().lower()
+            if (want in cell) if contains else (cell == want):
+                return {c: _stock(r[c]) if c in ints else r[c] for c in ret}
+        raise GuardFailure(-1, f"finalize: no row whose {match_col} {'contains' if contains else 'is'} {params[param]!r}")
+
+    TEMPLATES[template_id] = {
+        "param": param,
+        "goal": spec["goal"],
+        "start_url": spec.get("start_url", "{base_url}/shop"),
+        "hint": spec.get("hint", ""),
+        "default": spec.get("default", ""),
+        "schema": {
+            "type": "object",
+            "properties": {c: {"type": "integer" if c in ints else "string"} for c in ret},
+            "required": ret,
+            "additionalProperties": False,
+        },
+        "columns": [match_col, *ret],
+        "price_field": spec.get("price_field"),
+        "price_re": spec.get("price_re"),
+    }
+    FINALIZERS[template_id] = finalize

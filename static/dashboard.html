@@ -74,6 +74,8 @@
   .badge { display: inline-block; font: 500 11px/1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid var(--line2); border-radius: 4px; padding: 4px 6px; color: var(--muted); }
   .badge.compiled { border-color: var(--accent); color: var(--accent); }
   .badge.deopt { border-color: var(--text); color: var(--text); }
+  .badge.flag { border-color: var(--text); color: var(--text); letter-spacing: 0.1em; }
+  .log .ev-backoff, .log .ev-shadow, .log .ev-variant, .log .ev-side_exit { color: var(--muted); }
   .result { font-family: var(--mono); font-size: 12px; color: var(--muted); max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .empty { color: var(--ph); padding: 16px 8px; }
   .site-state { color: var(--muted); }
@@ -215,13 +217,14 @@ function renderRuns() {
   const runs = state.runs;
   if (!runs.length) { tb.innerHTML = `<tr><td colspan="9" class="empty">No runs yet.</td></tr>`; return; }
   tb.innerHTML = runs.map((r, i) => {
-    const tier = r.tier === "deopt" ? `deopt @ ${r.deopt_step}` : r.tier;
+    const tier = r.tier === "deopt" ? `deopt @ ${r.deopt_step}` : r.tier === "fallback" ? `side exit @ ${r.deopt_step}`
+      : r.backoff ? "backoff" : r.switched_from ? `compiled (v${r.switched_from} → v${r.version})` : r.tier;
     const ver = r.recompiled_to ? `v${r.version} → v${r.recompiled_to}` : r.version ? `v${r.version}` : (r.compiled_after ? `→ v${r.compiled_after}` : "—");
     const res = r.ok ? JSON.stringify(r.result) : (r.error || "failed");
     return `<tr><td class="num">${i + 1}</td><td>${esc(r.template)}</td><td>${esc(Object.values(r.params)[0])}</td>
       <td><span class="badge ${r.tier}">${esc(tier)}</span></td><td class="num">${esc(ver)}</td>
       <td class="num">${fmtMs(r.ms)}</td><td class="num">${r.llm_calls}</td><td class="num">${fmtCost(r.cost)}</td>
-      <td class="result" title="${esc(res)}">${esc(res)}</td></tr>`;
+      <td class="result" title="${esc(r.flag ? r.flag + " · " + res : res)}">${r.flag ? '<span class="badge flag">flag</span> ' : ""}${esc(res)}</td></tr>`;
   }).reverse().join("");
 }
 

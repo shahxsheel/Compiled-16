@@ -48,3 +48,66 @@ def test_toggle_deopts_at_step_gt_0_recompiles_v2_then_compiled_again(rt, fresh,
         assert r2["result"] == {"price": "$6.99"}
     finally:
         rt.emit = lambda *a, **k: None
+
+
+def _compile_price_of(rt):
+    for p in ["Pruning Shears", "Wireless Mouse"]:
+        rt.run("price_of", {"product": p})
+    assert hotness.compiled("price_of")["version"] == 1
+
+
+def test_compiled_code_carries_learned_guards(rt, fresh):
+    _compile_price_of(rt)
+    src = open(hotness.compiled("price_of")["path"]).read()
+    assert 'invariants={"price": "^\\\\$\\\\d+\\\\.\\\\d{2}$"}' in src  # stock is not read by price_of
+
+
+def test_data_drift_deopts_flags_and_backs_off_instead_of_recompiling(rt, fresh):
+    from hotpath.server import SITE
+
+    _compile_price_of(rt)
+    SITE["redesign"], SITE["mode"] = True, "cents"
+    r = rt.run("price_of", {"product": "Copper Kettle"})
+    assert r["tier"] == "deopt" and r["deopt_step"] == 2
+    assert r["flag"] and "learned invariant" in r["flag"]
+    assert r.get("backed_off") == 2 and "recompiled_to" not in r
+    assert hotness.compiled("price_of")["version"] == 1  # no v2: the trace did not change
+    tiers = [rt.run("price_of", {"product": "Gel Pen Pack"}) for _ in range(3)]
+    assert [t.get("backoff", False) for t in tiers] == [True, True, False]
+    assert tiers[2]["tier"] == "deopt" and tiers[2]["backed_off"] == 4  # retried, failed again: doubled
+    SITE["redesign"], SITE["mode"] = False, None
+    runs = [rt.run("price_of", {"product": "Gel Pen Pack"}) for _ in range(5)]
+    assert runs[-1]["tier"] == "compiled" and runs[-1]["ok"]  # site fixed: compiled code is back
+    assert hotness.compiled("price_of").get("backoff_left", 0) == 0
+
+
+def test_shadow_mismatch_flags_and_invalidates(rt, fresh):
+    _compile_price_of(rt)
+    path = hotness.compiled("price_of")["path"]
+    src = open(path).read().replace("return FINALIZERS['price_of'](tables, params)", "return {'price': '$0.00'}")
+    open(path, "w").write(src)  # simulate a compiled program that returns a wrong answer
+    rt.shadow_every = 1
+    try:
+        r = rt.run("price_of", {"product": "Copper Kettle"})
+    finally:
+        rt.shadow_every = 0
+    assert r["tier"] == "compiled" and r["result"] == {"price": "$0.00"}
+    assert r["shadow"]["match"] is False and r["shadow"]["interpreted"] == {"price": "$38.25"}
+    assert r["flag"].startswith("shadow mismatch")
+    assert hotness.compiled("price_of") is None
+    assert rt.run("price_of", {"product": "Copper Kettle"})["tier"] == "interpreted"
+
+
+def test_switching_back_reuses_a_cached_variant_without_the_llm(rt, fresh):
+    from hotpath.server import SITE
+
+    _compile_price_of(rt)
+    SITE["redesign"] = True
+    assert rt.run("price_of", {"product": "Copper Kettle"})["recompiled_to"] == 2
+    SITE["redesign"] = False  # e.g. the pipeline is back on the main branch
+    r = rt.run("price_of", {"product": "Gel Pen Pack"})
+    assert r["tier"] == "compiled" and r["llm_calls"] == 0 and r["version"] == 1 and r["switched_from"] == 2
+    assert r["result"] == {"price": "$6.99"} and hotness.compiled("price_of")["version"] == 1
+    SITE["redesign"] = True
+    r = rt.run("price_of", {"product": "Headlamp Pro"})
+    assert r["tier"] == "compiled" and r["llm_calls"] == 0 and r["version"] == 2

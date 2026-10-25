@@ -1,0 +1,470 @@
+{
+  "model": "claude-sonnet-5-5",
+  "builds": [
+    {
+      "build": "main #1 (cold cache)",
+      "mode": "original",
+      "regression": false,
+      "wall_s": 46.8,
+      "passed": 9,
+      "failed": 0,
+      "self_healed": 0,
+      "flagged": 0,
+      "compiled": 3,
+      "llm_calls": 24,
+      "cost": 0.081354,
+      "checks": [
+        {
+          "name": "Pruning Shears price",
+          "status": "pass",
+          "tier": "interpreted",
+          "msg": ""
+        },
+        {
+          "name": "Wireless Mouse price",
+          "status": "pass",
+          "tier": "interpreted",
+          "msg": ""
+        },
+        {
+          "name": "Copper Kettle price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Headlamp stock",
+          "status": "pass",
+          "tier": "interpreted",
+          "msg": ""
+        },
+        {
+          "name": "Kettle stock",
+          "status": "pass",
+          "tier": "interpreted",
+          "msg": ""
+        },
+        {
+          "name": "Mouse stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Chef Knife price+stock",
+          "status": "pass",
+          "tier": "interpreted",
+          "msg": ""
+        },
+        {
+          "name": "Gel Pen Pack price+stock",
+          "status": "pass",
+          "tier": "interpreted",
+          "msg": ""
+        },
+        {
+          "name": "Hiking Poles price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        }
+      ]
+    },
+    {
+      "build": "main #2",
+      "mode": "original",
+      "regression": false,
+      "wall_s": 1.46,
+      "passed": 9,
+      "failed": 0,
+      "self_healed": 0,
+      "flagged": 0,
+      "compiled": 9,
+      "llm_calls": 0,
+      "cost": 0.0,
+      "checks": [
+        {
+          "name": "Pruning Shears price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Wireless Mouse price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Copper Kettle price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Headlamp stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Kettle stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Mouse stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Chef Knife price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Gel Pen Pack price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Hiking Poles price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        }
+      ]
+    },
+    {
+      "build": "PR #7: UI refactor",
+      "mode": "redesign",
+      "regression": false,
+      "wall_s": 19.52,
+      "passed": 9,
+      "failed": 0,
+      "self_healed": 3,
+      "flagged": 0,
+      "compiled": 6,
+      "llm_calls": 9,
+      "cost": 0.02978,
+      "checks": [
+        {
+          "name": "Pruning Shears price",
+          "status": "warn",
+          "tier": "deopt",
+          "msg": "self-healed: deopt at step 1, recompiled v1 -> v2"
+        },
+        {
+          "name": "Wireless Mouse price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Copper Kettle price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Headlamp stock",
+          "status": "warn",
+          "tier": "deopt",
+          "msg": "self-healed: deopt at step 1, recompiled v1 -> v2"
+        },
+        {
+          "name": "Kettle stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Mouse stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Chef Knife price+stock",
+          "status": "warn",
+          "tier": "deopt",
+          "msg": "self-healed: deopt at step 1, recompiled v1 -> v2"
+        },
+        {
+          "name": "Gel Pen Pack price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Hiking Poles price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        }
+      ]
+    },
+    {
+      "build": "PR #7 re-run",
+      "mode": "redesign",
+      "regression": false,
+      "wall_s": 1.45,
+      "passed": 9,
+      "failed": 0,
+      "self_healed": 0,
+      "flagged": 0,
+      "compiled": 9,
+      "llm_calls": 0,
+      "cost": 0.0,
+      "checks": [
+        {
+          "name": "Pruning Shears price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Wireless Mouse price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Copper Kettle price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Headlamp stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Kettle stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Mouse stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Chef Knife price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Gel Pen Pack price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Hiking Poles price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        }
+      ]
+    },
+    {
+      "build": "main #3",
+      "mode": "original",
+      "regression": false,
+      "wall_s": 4.72,
+      "passed": 9,
+      "failed": 0,
+      "self_healed": 0,
+      "flagged": 0,
+      "compiled": 9,
+      "llm_calls": 0,
+      "cost": 0.0,
+      "checks": [
+        {
+          "name": "Pruning Shears price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Wireless Mouse price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Copper Kettle price",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Headlamp stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Kettle stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Mouse stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Chef Knife price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Gel Pen Pack price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Hiking Poles price+stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        }
+      ]
+    },
+    {
+      "build": "PR #8: breaks price formatting",
+      "mode": "cents",
+      "regression": true,
+      "wall_s": 35.75,
+      "passed": 3,
+      "failed": 6,
+      "self_healed": 0,
+      "flagged": 0,
+      "compiled": 3,
+      "llm_calls": 20,
+      "cost": 0.06782400000000001,
+      "checks": [
+        {
+          "name": "Pruning Shears price",
+          "status": "fail",
+          "tier": "deopt",
+          "msg": "expected {\"price\": \"$19.99\"}, got {\"price\": \"1999\"}"
+        },
+        {
+          "name": "Wireless Mouse price",
+          "status": "fail",
+          "tier": "interpreted",
+          "msg": "expected {\"price\": \"$19.99\"}, got {\"price\": \"1999\"}"
+        },
+        {
+          "name": "Copper Kettle price",
+          "status": "fail",
+          "tier": "interpreted",
+          "msg": "expected {\"price\": \"$38.25\"}, got {\"price\": \"3825\"}"
+        },
+        {
+          "name": "Headlamp stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Kettle stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Mouse stock",
+          "status": "pass",
+          "tier": "compiled",
+          "msg": ""
+        },
+        {
+          "name": "Chef Knife price+stock",
+          "status": "fail",
+          "tier": "deopt",
+          "msg": "expected {\"price\": \"$49.00\", \"stock\": 23}, got {\"price\": \"4900\", \"stock\": 23}"
+        },
+        {
+          "name": "Gel Pen Pack price+stock",
+          "status": "fail",
+          "tier": "interpreted",
+          "msg": "expected {\"price\": \"$6.99\", \"stock\": 150}, got {\"price\": \"699\", \"stock\": 150}"
+        },
+        {
+          "name": "Hiking Poles price+stock",
+          "status": "fail",
+          "tier": "interpreted",
+          "msg": "expected {\"price\": \"$44.50\", \"stock\": 19}, got {\"price\": \"4450\", \"stock\": 19}"
+        }
+      ]
+    }
+  ],
+  "static": {
+    "original": {
+      "passed": 9,
+      "wall_s": 1.25
+    },
+    "redesign": {
+      "passed": 0,
+      "wall_s": 9.72
+    },
+    "cents": {
+      "passed": 3,
+      "wall_s": 1.27
+    }
+  },
+  "llm_only": {
+    "original": {
+      "passed": 9,
+      "cost": 0.12149800000000001,
+      "llm_calls": 36,
+      "wall_s": 54.55
+    },
+    "redesign": {
+      "passed": 9,
+      "cost": 0.12205800000000001,
+      "llm_calls": 36,
+      "wall_s": 71.39
+    },
+    "cents": {
+      "passed": 4,
+      "cost": 0.12173,
+      "llm_calls": 36,
+      "wall_s": 53.04
+    }
+  },
+  "totals": {
+    "hotpath": [
+      6,
+      0.178958,
+      109.7
+    ],
+    "static": [
+      4,
+      0.0,
+      24.46
+    ],
+    "llm": [
+      6,
+      0.7303400000000001,
+      359.47
+    ]
+  }
+}

@@ -28,7 +28,7 @@ def _value(step: dict) -> str:
     return f"params[{args['slot']!r}]" if "slot" in args else repr(args["text"])
 
 
-def generate(template_id: str, steps: list[dict], version: int, sig: str) -> str:
+def generate(template_id: str, steps: list[dict], version: int, sig: str, invariants: dict | None = None) -> str:
     lines = [HEADER.format(template=template_id, version=version, sig=sig, n=len(steps))]
     for s in steps:
         k, sel, fp = s["step"], s["selector"], s["fingerprint"]
@@ -55,6 +55,8 @@ def generate(template_id: str, steps: list[dict], version: int, sig: str) -> str
             spec = tasks.table_spec(template_id)
             extra = "" if spec == tasks.table_spec("price_of") else \
                 f", columns={spec['columns']!r}, price_field={spec['price_field']!r}, price_re={spec['price_re']!r}"
+            if invariants:
+                extra += f", invariants={json.dumps(invariants, sort_keys=True)}"
             lines.append(f"    tables.append(guard_table(page, {k}, {sel!r}{extra}))")
         else:
             raise ValueError(f"cannot compile action {s['action']!r}")
@@ -71,9 +73,9 @@ def path_for(template_id: str, version: int) -> Path:
     return store.compiled_dir() / f"{template_id}_v{version}.py"
 
 
-def compile_trace(template_id: str, steps: list[dict], version: int, sig: str) -> Path:
+def compile_trace(template_id: str, steps: list[dict], version: int, sig: str, invariants: dict | None = None) -> Path:
     p = path_for(template_id, version)
-    p.write_text(generate(template_id, steps, version, sig))
+    p.write_text(generate(template_id, steps, version, sig, invariants))
     return p
 
 

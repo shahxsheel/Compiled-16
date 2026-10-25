@@ -1,0 +1,25 @@
+{
+  "base_url": "http://127.0.0.1:8000",
+  "templates": {
+    "price_and_stock": {
+      "param": "product",
+      "goal": "Find the price and the stock count of the product named '{product}'.",
+      "hint": "Fill the search box, click the submit button, call extract_table on the results table, then call done.",
+      "start_url": "{base_url}/shop",
+      "match_column": "name",
+      "return_columns": ["price", "stock"],
+      "int_columns": ["stock"]
+    }
+  },
+  "checks": [
+    {"name": "Pruning Shears price", "template": "price_of", "params": {"product": "Pruning Shears"}, "expect": {"price": "$19.99"}},
+    {"name": "Wireless Mouse price", "template": "price_of", "params": {"product": "Wireless Mouse"}, "expect": {"price": "$19.99"}},
+    {"name": "Copper Kettle price", "template": "price_of", "params": {"product": "Copper Kettle"}, "expect": {"price": "$38.25"}},
+    {"name": "Headlamp stock", "template": "stock_for", "params": {"term": "Headlamp"}, "expect": {"stock": 31}},
+    {"name": "Kettle stock", "template": "stock_for", "params": {"term": "Kettle"}, "expect": {"stock": 14}},
+    {"name": "Mouse stock", "template": "stock_for", "params": {"term": "Mouse"}, "expect": {"stock": 73}},
+    {"name": "Chef Knife price+stock", "template": "price_and_stock", "params": {"product": "Chef Knife 8in"}, "expect": {"price": "$49.00", "stock": 23}},
+    {"name": "Gel Pen Pack price+stock", "template": "price_and_stock", "params": {"product": "Gel Pen Pack"}, "expect": {"price": "$6.99", "stock": 150}},
+    {"name": "Hiking Poles price+stock", "template": "price_and_stock", "params": {"product": "Hiking Poles"}, "expect": {"price": "$44.50", "stock": 19}}
+  ]
+}

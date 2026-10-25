@@ -1,0 +1,29 @@
+# Example: run Hotpath browser checks on every push / PR.
+# Copy to .github/workflows/hotpath.yml in your app's repo and adjust the "Start app" step.
+name: hotpath
+on: [push, pull_request]
+jobs:
+  browser-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt && python -m playwright install --with-deps chromium
+      - name: Start app
+        run: python -m hotpath --port 8000 &   # replace with your app's start command
+      # Compiled programs are cached between runs: after the first green build, checks cost $0.
+      - uses: actions/cache@v4
+        with:
+          path: .hotpath/ci
+          key: hotpath-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            hotpath-${{ github.ref_name }}-
+            hotpath-main-
+      - name: Hotpath checks
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m hotpath ci examples/shop-checks.json --junit hotpath.xml --summary "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: hotpath-junit, path: hotpath.xml}

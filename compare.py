@@ -109,7 +109,7 @@ def suite_shop(h, model, runs_per):
     return out
 
 
-def suite_stress(h, model):
+def suite_stress(h, model, trials=1):
     out = []
     base = WORK / model / "stress"
     h.home(base)
@@ -121,18 +121,19 @@ def suite_stress(h, model):
     snap = WORK / model / "stress_snapshot"
     shutil.rmtree(snap, ignore_errors=True)
     shutil.copytree(base, snap)
-    for mode in STRESS_MODES:
-        shutil.rmtree(base)
-        shutil.copytree(snap, base)  # every mode starts from the same compiled v1
-        h.home(base, reset=False)
-        h.mode(mode)
-        for tid, param, values in STRESS_TASKS:
-            for attempt, v in enumerate(values, start=1):
-                out.append(h.run(tid, {param: v}, suite="stress", mode=mode, kind="jit", attempt=attempt))
-        # Baseline: the same first task on the changed site with no compiled code at all (pure LLM agent).
-        for tid, param, values in STRESS_TASKS:
-            h.home(WORK / model / "stress_interp")
-            out.append(h.run(tid, {param: values[0]}, suite="stress", mode=mode, kind="llm_only"))
+    for trial in range(1, trials + 1):
+        for mode in STRESS_MODES:
+            shutil.rmtree(base)
+            shutil.copytree(snap, base)  # every mode and trial starts from the same compiled v1
+            h.home(base, reset=False)
+            h.mode(mode)
+            for tid, param, values in STRESS_TASKS:
+                for attempt, v in enumerate(values, start=1):
+                    out.append(h.run(tid, {param: v}, suite="stress", mode=mode, kind="jit", attempt=attempt, trial=trial))
+            # Baseline: the same first task on the changed site with no compiled code at all (pure LLM agent).
+            for tid, param, values in STRESS_TASKS:
+                h.home(WORK / model / "stress_interp")
+                out.append(h.run(tid, {param: values[0]}, suite="stress", mode=mode, kind="llm_only", trial=trial))
     h.mode("original")
     return out
 
@@ -147,6 +148,17 @@ def suite_books(h, model, truth):
     return out
 
 
+def wilson(k, n, z=1.96):
+    """95% Wilson score interval for k successes out of n."""
+    if n == 0:
+        return (None, None)
+    p = k / n
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / d
+    return (max(0.0, c - h), min(1.0, c + h))
+
+
 def tier_stats(rs):
     if not rs:
         return None
@@ -159,9 +171,21 @@ def tier_stats(rs):
 def outcome(r):
     tier = {"interpreted": "interp", "compiled": "compiled", "deopt": f"deopt@{r['deopt_step']}",
             "fallback": f"side-exit@{r['deopt_step']}", "error": "crashed"}[r["tier"]]
+    if r.get("backoff"):
+        tier = "backoff→interp"
+    flag = " ⚑" if r.get("flag") else ""
     if not r["ok"]:
-        return f"{tier} FAILED"
-    return f"{tier} {'✓' if r['correct'] else '✗ wrong'}"
+        return f"{tier} FAILED{flag}"
+    return f"{tier} {'✓' if r['correct'] else '✗'}{flag}"
+
+
+def verdict(r):
+    """correct / flagged (wrong or failed but surfaced to a human) / silent (wrong, nobody told)."""
+    if r["ok"] and r["correct"]:
+        return "correct"
+    if r.get("flag") or not r["ok"]:
+        return "flagged"
+    return "silent"
 
 
 def summarize(model, runs):
@@ -176,8 +200,9 @@ def summarize(model, runs):
         "deopt": tier_stats([r for r in runs if r["tier"] == "deopt"]),
         "side_exit": tier_stats([r for r in runs if r["tier"] == "fallback"]),
         "shop_total_cost": sum(r["cost"] for r in shop),
-        "shop_all_interpreted_estimate": statistics.mean(r["cost"] for r in shop if r["tier"] == "interpreted") * len(shop),
-        "shop_correct_rate": sum(bool(r["correct"]) for r in shop) / len(shop),
+        "shop_all_interpreted_estimate": (statistics.mean(r["cost"] for r in shop if r["tier"] == "interpreted") * len(shop))
+        if any(r["tier"] == "interpreted" for r in shop) else 0,
+        "shop_correct_rate": sum(bool(r["correct"]) for r in shop) / len(shop) if shop else 0,
         "shop_deopt_rate_after": sum(r["tier"] == "deopt" for r in shop if r["phase"] == "after") /
                                  max(1, sum(r["phase"] == "after" for r in shop)),
         "stress": {},
@@ -190,12 +215,30 @@ def summarize(model, runs):
         for tid, _, _ in STRESS_TASKS:
             jit = [r for r in stress if r.get("mode") == mode and r["template"] == tid and r.get("kind") == "jit"]
             base = [r for r in stress if r.get("mode") == mode and r["template"] == tid and r.get("kind") == "llm_only"]
+            first = [r for r in jit if r.get("trial", 1) == 1]
             s["stress"][f"{mode}/{tid}"] = {
-                "jit": [outcome(r) for r in sorted(jit, key=lambda r: r["attempt"])],
+                "jit": [outcome(r) for r in sorted(first, key=lambda r: r["attempt"])],
+                "jit_verdicts": {v: sum(verdict(r) == v for r in jit) for v in ("correct", "flagged", "silent")},
+                "jit_n": len(jit),
                 "reason": jit[0]["reason"] if jit else "",
                 "llm_only": outcome(base[0]) if base else None,
-                "jit_cost": sum(r["cost"] for r in jit), "llm_only_cost": sum(r["cost"] for r in base),
+                "llm_only_verdicts": {v: sum(verdict(r) == v for r in base) for v in ("correct", "flagged", "silent")},
+                "llm_only_n": len(base),
+                "jit_cost_per_run": statistics.mean(r["cost"] for r in jit) if jit else 0,
+                "llm_only_cost_per_run": statistics.mean(r["cost"] for r in base) if base else 0,
             }
+    jit_all = [r for r in stress if r.get("kind") == "jit"]
+    base_all = [r for r in stress if r.get("kind") == "llm_only"]
+    for name, rs in (("stress_jit", jit_all), ("stress_llm_only", base_all)):
+        n = len(rs)
+        ver = {v: sum(verdict(r) == v for r in rs) for v in ("correct", "flagged", "silent")}
+        s[name] = {"n": n, **ver, "correct_ci": wilson(ver["correct"], n), "silent_ci": wilson(ver["silent"], n),
+                   "cost_per_run": statistics.mean(r["cost"] for r in rs) if rs else 0,
+                   "p50_ms": statistics.median(r["ms"] for r in rs) if rs else None}
+    shadow = [r for r in runs if r.get("shadow")]
+    s["shadow"] = {"checks": len(shadow), "mismatches": sum(not r["shadow"]["match"] for r in shadow),
+                   "cost": sum(r["shadow"]["cost"] for r in shadow)}
+    s["total_cost"] += s["shadow"]["cost"]
     return s
 
 
@@ -228,15 +271,29 @@ def report(summaries) -> str:
     row("Shop bench: cost (vs all-interpreted)", lambda s: f"${s['shop_total_cost']:.3f} (vs ${s['shop_all_interpreted_estimate']:.3f})")
     row("toscrape books: correct", lambda s: f"{s['books_correct']}/{s['books_runs']}")
     row("Total spend this suite", lambda s: f"${s['total_cost']:.3f}")
-    L += ["", "### Stress tests: compiled v1 meets a changed site",
-          "First and second run with the JIT (✓ correct, ✗ wrong answer), vs the same task run by the LLM alone with no compiled code.", "",
-          "| site change / task | " + " | ".join(f"{m} JIT | {m} LLM only" for m in models) + " |",
-          "|---|" + "---|---|" * len(models)]
+    def ci(v):
+        lo, hi = v
+        return "—" if lo is None else f"{lo:.0%}–{hi:.0%}"
+
+    L += ["", "### Stress tests: compiled v1 meets a changed site", "",
+          "Every run is classified **correct**, **flagged** (wrong or failed, but Hotpath raised a flag or failed loudly) "
+          "or **silent** (a wrong answer nobody was told about). 95% Wilson intervals.", "",
+          "| | " + " | ".join(models) + " |", "|---|" + "---:|" * len(models)]
+    for label, key in (("Hotpath (JIT)", "stress_jit"), ("LLM alone", "stress_llm_only")):
+        row(f"{label}: correct", lambda s, k=key: f"{s[k]['correct']}/{s[k]['n']} ({ci(s[k]['correct_ci'])})")
+        row(f"{label}: flagged", lambda s, k=key: f"{s[k]['flagged']}/{s[k]['n']}")
+        row(f"{label}: **silent wrong**", lambda s, k=key: f"**{s[k]['silent']}/{s[k]['n']}** (≤{s[k]['silent_ci'][1]:.0%})")
+        row(f"{label}: cost / run, p50", lambda s, k=key: f"${s[k]['cost_per_run']:.4f}, {fmt_ms(s[k]['p50_ms'])}")
+    L += ["", "Per site change (first trial, first → second run; ⚑ = flagged), and totals over all trials:", "",
+          "| site change / task | " + " | ".join(f"{m} JIT | {m} JIT all trials | {m} LLM alone" for m in models) + " |",
+          "|---|" + "---|---|---|" * len(models)]
     for key in summaries[0]["stress"]:
         cells = []
         for s in summaries:
             st = s["stress"][key]
-            cells += [" → ".join(st["jit"]), st["llm_only"] or "—"]
+            v = st["jit_verdicts"]
+            cells += [" → ".join(st["jit"]), f"{v['correct']}✓ {v['flagged']}⚑ {v['silent']}✗ /{st['jit_n']}",
+                      f"{st['llm_only_verdicts']['correct']}/{st['llm_only_n']} ✓"]
         L.append(f"| {key} | " + " | ".join(cells) + " |")
     L += ["", "Guard failure reasons (" + models[0] + "):", ""]
     for key, st in summaries[0]["stress"].items():
@@ -254,12 +311,19 @@ def main():
     ap.add_argument("--runs", type=int, default=10)
     ap.add_argument("--suites", nargs="+", default=["shop", "stress", "books"])
     ap.add_argument("--fake", action="store_true", help="dry run with the scripted LLM (shop/stress only)")
+    ap.add_argument("--trials", type=int, default=3, help="stress-test repetitions per site change")
+    ap.add_argument("--no-invariants", action="store_true", help="ablation: compile without learned value guards")
+    ap.add_argument("--shadow-every", type=int, default=0, help="shadow-verify every Nth compiled run")
+    ap.add_argument("--label", default="", help="write compare_<label>.json/md instead of compare.json/md")
     args = ap.parse_args()
 
     from hotpath.llm import AnthropicLLM
 
     truth = book_truth() if "books" in args.suites else {}
+    if args.no_invariants:
+        os.environ["HOTPATH_NO_INVARIANTS"] = "1"
     h = Harness()
+    h.rt.shadow_every = args.shadow_every
     results = {}
     try:
         for model in args.models:
@@ -274,7 +338,7 @@ def main():
             if "shop" in args.suites:
                 runs += suite_shop(h, model, args.runs)
             if "stress" in args.suites:
-                runs += suite_stress(h, model)
+                runs += suite_stress(h, model, args.trials)
             if "books" in args.suites:
                 runs += suite_books(h, model, truth)
             results[model] = runs
@@ -282,9 +346,13 @@ def main():
         h.close()
     summaries = [summarize(m, rs) for m, rs in results.items()]
     md = report(summaries)
-    (ROOT / "compare.json").write_text(json.dumps({"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-                                                   "summaries": summaries, "runs": results}, indent=2, default=str))
-    (ROOT / "compare.md").write_text(md)
+    name = f"compare_{args.label}" if args.label else "compare"
+    config = {"trials": args.trials, "invariants": not args.no_invariants, "shadow_every": args.shadow_every,
+              "suites": args.suites}
+    md = f"<!-- config: {json.dumps(config)} -->\n" + md
+    (ROOT / f"{name}.json").write_text(json.dumps({"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"), "config": config,
+                                                  "summaries": summaries, "runs": results}, indent=2, default=str))
+    (ROOT / f"{name}.md").write_text(md)
     print()
     print(md)
 

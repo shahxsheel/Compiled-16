@@ -146,3 +146,20 @@ def test_finalize_wrapper_preserves_guard_kind():
     src = compiler.generate("price_of", trace.slot(trace.normalize(TRACE), {"product": "x"}), 1, "s")
     assert "raise GuardFailure(3, e.reason, e.kind)" in src
     assert GuardFailure(1, "r").kind == "structure"
+
+
+def test_invariant_inference_learns_machine_columns_only():
+    from hotpath.invariants import infer
+
+    learned = infer({"price": ["$19.99", "$7.50"], "stock": ["52", "73"], "name": ["Pruning Shears", "Wireless Mouse"]})
+    assert learned == {"price": r"^\$\d+\.\d{2}$", "stock": r"^\d+$"}
+    assert infer({"price": ["$19.99"]}) == {}  # one sample is not enough
+    assert infer({"x": ["12", "$3.00"]}) == {}  # disagreeing shapes: no pattern
+
+
+def test_learned_invariant_failure_is_semantic():
+    table = {"columns": ["name", "price", "stock"], "rows": [{"name": "a", "price": "3825", "stock": "1"}]}
+    check_table(2, table)  # the loose built-in regex accepts integer cents
+    with pytest.raises(GuardFailure) as e:
+        check_table(2, table, invariants={"price": r"^\$\d+\.\d{2}$"})
+    assert e.value.kind == "semantic" and e.value.step == 2 and "3825" in e.value.reason

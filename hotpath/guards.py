@@ -8,6 +8,7 @@ EXPECTED_COLUMNS = {"name", "price", "stock"}
 
 class GuardFailure(Exception):
     """kind="structure": the page no longer matches the trace (deopt + splice + recompile).
+    kind="semantic": the page matches but its values broke a learned invariant (deopt, answer flagged).
     kind="input": the page is fine but this run's param is not where the trace leads (side exit, keep the code)."""
 
     def __init__(self, step: int, reason: str, kind: str = "structure"):
@@ -57,17 +58,22 @@ def select_option(page, selector: str, text: str) -> None:
     page.select_option(selector, label=label, timeout=3000)
 
 
-def check_table(step: int, table: dict | None, columns=EXPECTED_COLUMNS, price_field="price", price_re=PRICE_RE) -> dict:
-    """Expected columns present and every price well-formed."""
+def check_table(step: int, table: dict | None, columns=EXPECTED_COLUMNS, price_field="price", price_re=PRICE_RE,
+                invariants: dict | None = None) -> dict:
+    """Expected columns present, every price well-formed, and every learned value invariant holds."""
     if table is None:
         raise GuardFailure(step, "table not found")
     missing = set(columns) - set(table["columns"])
     if missing:
         raise GuardFailure(step, f"table missing columns {sorted(missing)}")
     pattern = re.compile(price_re) if isinstance(price_re, str) else price_re
-    for r in table["rows"]:
+    for r in table["rows"] if price_field and pattern else []:
         if not pattern.match(r[price_field]):
             raise GuardFailure(step, f"{price_field} {r[price_field]!r} does not match {pattern.pattern}")
+    for col, pat in (invariants or {}).items():
+        for r in table["rows"]:
+            if col in r and not re.match(pat, r[col]):
+                raise GuardFailure(step, f"learned invariant: {col} {r[col]!r} !~ {pat}", kind="semantic")
     return table
 
 

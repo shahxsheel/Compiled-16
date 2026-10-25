@@ -35,7 +35,7 @@ An LLM browser agent is a slow, expensive interpreter: every run asks Claude to 
                Dashboard  /  (Altitude UI)           Target site /shop (+ POST /toggle)
 ```
 
-The pieces, one module each under `hotpath/`: `dom.py` (compact DOM, canonical selectors, fingerprints), `interpreter.py`, `trace.py` (normalize, slot, signature, splice), `hotness.py`, `compiler.py`, `guards.py`, `tasks.py` (templates, schemas, hand-written finalizers), `runtime.py`, `server.py`, `shop.py`.
+The pieces, one module each under `hotpath/`: `dom.py` (compact DOM, canonical selectors, fingerprints), `interpreter.py`, `trace.py` (normalize, slot, signature, splice), `hotness.py` (counts, variants, backoff), `invariants.py` (learned value guards), `compiler.py`, `guards.py`, `tasks.py` (templates, schemas, finalizers, JSON lookup templates), `runtime.py` (tiers, deopt, side exits, shadow checks), `ci.py` (`hotpath ci`), `server.py`, `shop.py` (demo site + stress modes).
 
 ## Run it
 
@@ -89,24 +89,63 @@ On the dashboard, pick `price_of {product}`:
 - Correctness (compiled/deopt output == expected interpreted output): **100%** (60/60 runs succeeded)
 - Total cost: **$0.113** for 60 runs, versus about $0.83 if every run had been interpreted. Compiled runs are about **50x faster** at p50.
 
-## Live testing beyond the demo
+## Results: is it worth putting in a pipeline?
 
-`compare.py` runs three live suites per model and writes `compare.json` / [`compare.md`](compare.md):
-the 60-run shop benchmark, six stress-test site changes against a shared compiled v1 (each also run by the LLM alone as a baseline), and a 9-title sequence on **books.toscrape.com**, a real public scraping sandbox.
+All numbers below are live runs against the real model. Raw data: [`pipeline.md`](pipeline.md), [`compare.md`](compare.md), [`compare_baseline.md`](compare_baseline.md) (before the fixes).
+
+### CI pipeline simulation (Sonnet 5.5, 9 checks per build, `pipeline_sim.py`)
+
+Three ways to run the same checks over six builds. A build is **right** when it is green without a regression and red with one.
+
+| build | site | Hotpath | Hotpath cost / time | frozen Playwright suite | LLM agent, every check | LLM cost / time |
+|---|---|---|---:|---|---|---:|
+| main #1 (cold cache) | original | ✅ 9/9 | $0.081 / 46.8s | ✅ 9/9 | ✅ 9/9 | $0.121 / 54.5s |
+| main #2 | original | ✅ 9/9, all compiled | **$0.000 / 1.5s** | ✅ 9/9 | ✅ 9/9 | $0.121 / 54.5s |
+| PR #7: UI refactor | redesign | ✅ 9/9, 3 self-healed | $0.030 / 19.5s | ❌ 0/9 (false red) | ✅ 9/9 | $0.122 / 71.4s |
+| PR #7 re-run | redesign | ✅ 9/9, all compiled | **$0.000 / 1.4s** | ❌ 0/9 (false red) | ✅ 9/9 | $0.122 / 71.4s |
+| main #3 | original | ✅ 9/9, cached v1 reused | **$0.000 / 4.7s** | ✅ 9/9 | ✅ 9/9 | $0.121 / 54.5s |
+| PR #8: breaks price formatting | cents | ✅ red (3/9), flagged | $0.068 / 35.8s | ✅ red (3/9) | ✅ red (4/9) | $0.122 / 53.0s |
+| **total** | | **6/6 right** | **$0.179 / 110s** | 4/6 right | 6/6 right | $0.730 / 360s |
+
+Hotpath matches the LLM agent's judgement at a quarter of the cost and a third of the time, and avoids the frozen suite's false reds after a UI refactor.
+
+### Stress tests: compiled code meets a changed site (`compare.py`, 3 trials, 2 models)
+
+Six site changes (structural: redesign, renamed inputs, relabelled button, decoy table; semantic: prices in cents, swapped Price/Stock headers). Each run is **correct**, **flagged** (wrong, but Hotpath raised a flag), or **silent** (wrong, and nobody was told).
+
+| | Hotpath, Sonnet 5.5 | Hotpath, Sonnet 4.6 | LLM alone, Sonnet 5.5 | LLM alone, Sonnet 4.6 |
+|---|---:|---:|---:|---:|
+| correct | 66/72 | 68/72 | 33/36 | 33/36 |
+| **silent wrong** (95% upper bound) | **0/72 (≤5%)** | **0/72 (≤5%)** | 3/36 (≤22%) | 3/36 (≤22%) |
+| cost / run, p50 latency | $0.0053, 1.6 s | $0.0067, 1.4 s | $0.0136, 6.0 s | $0.0179, 5.7 s |
+
+Before the fixes below, the same suite gave Hotpath **4 silent wrong answers out of 24** per model. Elsewhere in the run: 60/60 deopts recovered, compiled answers 100% correct, shop benchmark 100% correct at $0.114 vs $0.833 all-interpreted, books.toscrape.com 9/9 on both models.
+
+### What changed to get there (each borrowed from published work)
+
+| Technique | Inspired by | Effect |
+|---|---|---|
+| **Learned value guards**: character-class patterns inferred from interpreted runs, only for columns the answer was read from | Daikon (likely invariants), Auto-Validate (SIGMOD '21) | Cents / swapped headers now deopt and flag instead of returning wrong prices |
+| **Backoff instead of futile recompiles**: if the healed trace would compile to identical code, skip compiled code for 2, 4, 8, 16 runs (flagged) | Tracing JITs (PyPy guard-failure thresholds) | No endless deopt loop on data drift |
+| **Polymorphic cache**: up to 4 compiled versions per task, tried before calling the LLM | Polymorphic inline caches | Switching main ↔ PR branch costs $0 |
+| **Param-targeted clicks + side exits**: a click whose label is a param is resolved by label at run time; input misses fall back without splicing | Found on books.toscrape.com | Fixed wrong answers for every title but the first, and trace bloat |
+| **Shadow verification** (optional): re-derive every Nth compiled answer with the interpreter; mismatch invalidates | AgentRR's check function, differential testing | A sampled, measurable silent-error rate |
+
+**Ablation** ([`compare_ablation_shadow.md`](compare_ablation_shadow.md), Sonnet 5.5): with learned guards off and a shadow check on *every* compiled run, Hotpath had **6/72 silent wrong** answers at +$0.62 for 45 checks. Shadow checks caught the swapped headers (3 mismatches, each discarding the compiled version) but never the cents case, because the interpreter makes the same mistake and agrees. Learned guards are the defense that matters (0/72, $0 at run time); shadow checks only add coverage for errors the LLM doesn't share.
+
+### Use it in CI
 
 ```bash
-.venv/bin/python compare.py --models claude-sonnet-5-5 claude-sonnet-4-6   # ~$1.50, ~15 min
+python -m hotpath ci examples/shop-checks.json --junit hotpath.xml --summary "$GITHUB_STEP_SUMMARY"
+python -m hotpath ci examples/shop-checks.json --fake --serve-demo     # offline smoke test against the bundled demo
 ```
 
-| | Sonnet 5.5 | Sonnet 4.6 (older) |
-|---|---:|---:|
-| Interpreted p50 / cost per run | 6.27 s / $0.0140 | 5.79 s / $0.0184 |
-| Compiled p50 / cost per run | 136 ms / $0 | 132 ms / $0 |
-| Deopts recovered | 11/11 | 11/11 |
-| Shop bench correct, cost (vs all-interpreted) | 100%, $0.114 (vs $0.834) | 100%, $0.156 (vs $1.106) |
-| toscrape books correct | 9/9 | 9/9 |
+Checks are JSON (`template`, `params`, `expect`). New tasks can be declared in the same file as table lookups (`match_column`, `return_columns`), with no Python. Cache `.hotpath/ci` between builds so repeat runs are compiled. Self-heals are reported as warnings with the code diff. The exit code is 1 on a wrong result (and on flags with `--strict`). Example workflow: [`examples/github-actions.yml`](examples/github-actions.yml).
 
-Both models behave the same: Hotpath recovers from every *structural* change (renamed elements at step 0 or 1, relabelled button, decoy table). It is **fooled by changes in meaning**: with prices shown in cents, or the Price/Stock headers swapped, every guard passes and compiled code returns a wrong price (the LLM alone gets the swap right). The locked price regex `^\$?\d+(\.\d{2})?$` accepts `3825` and `52`; tightening it to `^\$\d+\.\d{2}$` would turn both into deopts. Two real-site bugs found and fixed along the way are in DECISIONS.md (param-targeted clicks, side exits).
+### What we can and cannot claim
+
+- **Supported:** near-zero cost on repeat checks, self-healing of UI refactors that break frozen Playwright suites, real regressions still caught, and **no silent wrong answers in our stress suite on two models** (the LLM alone had 3/36).
+- **Not yet supported:** results in general. The demo site and all six stress modes are ours, the only outside site is one sandbox, tasks are "read a value from a table" (no multi-page flows, logins or forms), and the confidence intervals rest on 72 runs per model. The natural next step is the self-hosted WebArena benchmark used by AWM, SkillWeaver and WALT.
 
 ## Design notes
 

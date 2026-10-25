@@ -40,7 +40,11 @@ class FakeLLM:
     def create(self, system, messages, tools):
         self.n += 1
         obs = self._observation(messages)
-        url = re.search(r"^URL: (\S+)", obs, re.M).group(1)
+        m = re.search(r"^URL: (\S+)", obs, re.M)
+        if m is None:  # nudged after giving up: keep giving up (the interpreter's cap ends the run)
+            return SimpleNamespace(content=[SimpleNamespace(type="text", text="I still can't do this.")],
+                                   stop_reason="end_turn", usage=SimpleNamespace(input_tokens=900, output_tokens=20))
+        url = m.group(1)
         els = [LINE_RE.match(l) for l in obs.splitlines()]
         els = [m for m in els if m]
         param_name = tasks.TEMPLATES[self.template_id]["param"]

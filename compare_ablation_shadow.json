@@ -1,0 +1,6593 @@
+{
+  "generated_at": "2026-10-24 18:03:07",
+  "config": {
+    "trials": 3,
+    "invariants": false,
+    "shadow_every": 1,
+    "suites": [
+      "stress"
+    ]
+  },
+  "summaries": [
+    {
+      "model": "claude-sonnet-5-5",
+      "interpreted": {
+        "runs": 46,
+        "p50_ms": 6110.5,
+        "p95_ms": 8736,
+        "mean_cost": 0.013652391304347826,
+        "llm_calls_per_run": 4,
+        "ok_rate": 1.0,
+        "correct_rate": 0.9347826086956522
+      },
+      "compiled": {
+        "runs": 45,
+        "p50_ms": 163,
+        "p95_ms": 177,
+        "mean_cost": 0.0,
+        "llm_calls_per_run": 0,
+        "ok_rate": 1.0,
+        "correct_rate": 0.8
+      },
+      "deopt": {
+        "runs": 21,
+        "p50_ms": 5627,
+        "p95_ms": 7174,
+        "mean_cost": 0.010419714285714286,
+        "llm_calls_per_run": 3.142857142857143,
+        "ok_rate": 1.0,
+        "correct_rate": 1.0
+      },
+      "side_exit": null,
+      "shop_total_cost": 0,
+      "shop_all_interpreted_estimate": 0,
+      "shop_correct_rate": 0,
+      "shop_deopt_rate_after": 0.0,
+      "stress": {
+        "redesign/price_of": {
+          "jit": [
+            "deopt@1 \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.00496,
+          "llm_only_cost_per_run": 0.013840666666666666
+        },
+        "redesign/stock_for": {
+          "jit": [
+            "deopt@1 \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.004849333333333333,
+          "llm_only_cost_per_run": 0.013204
+        },
+        "rename_all/price_of": {
+          "jit": [
+            "deopt@0 \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "deoptimizing at step 0: selector #q not visible within 1s",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.0067870000000000005,
+          "llm_only_cost_per_run": 0.013632666666666666
+        },
+        "rename_all/stock_for": {
+          "jit": [
+            "deopt@0 \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "deoptimizing at step 0: selector #q not visible within 1s",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.006636666666666667,
+          "llm_only_cost_per_run": 0.013268
+        },
+        "relabel/price_of": {
+          "jit": [
+            "deopt@1 \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.004957666666666667,
+          "llm_only_cost_per_run": 0.013478
+        },
+        "relabel/stock_for": {
+          "jit": [
+            "deopt@1 \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.004856333333333333,
+          "llm_only_cost_per_run": 0.013278666666666668
+        },
+        "cents/price_of": {
+          "jit": [
+            "compiled \u2717",
+            "compiled \u2717"
+          ],
+          "jit_verdicts": {
+            "correct": 0,
+            "flagged": 0,
+            "silent": 6
+          },
+          "jit_n": 6,
+          "reason": "",
+          "llm_only": "interp \u2717",
+          "llm_only_verdicts": {
+            "correct": 0,
+            "flagged": 0,
+            "silent": 3
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.0,
+          "llm_only_cost_per_run": 0.013454
+        },
+        "cents/stock_for": {
+          "jit": [
+            "compiled \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.0,
+          "llm_only_cost_per_run": 0.013530666666666667
+        },
+        "swap/price_of": {
+          "jit": [
+            "compiled \u2717 \u2691",
+            "interp \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 3,
+            "flagged": 3,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.00693,
+          "llm_only_cost_per_run": 0.013671333333333332
+        },
+        "swap/stock_for": {
+          "jit": [
+            "deopt@3 \u2713 \u2691",
+            "backoff\u2192interp \u2713 \u2691"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "deoptimizing at step 3: finalize: stock '$19.99' is not an integer",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.010261,
+          "llm_only_cost_per_run": 0.01402
+        },
+        "decoy/price_of": {
+          "jit": [
+            "compiled \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.0,
+          "llm_only_cost_per_run": 0.014407333333333333
+        },
+        "decoy/stock_for": {
+          "jit": [
+            "compiled \u2713",
+            "compiled \u2713"
+          ],
+          "jit_verdicts": {
+            "correct": 6,
+            "flagged": 0,
+            "silent": 0
+          },
+          "jit_n": 6,
+          "reason": "",
+          "llm_only": "interp \u2713",
+          "llm_only_verdicts": {
+            "correct": 3,
+            "flagged": 0,
+            "silent": 0
+          },
+          "llm_only_n": 3,
+          "jit_cost_per_run": 0.0,
+          "llm_only_cost_per_run": 0.014037333333333332
+        }
+      },
+      "books_correct": 0,
+      "books_runs": 0,
+      "books_tiers": [],
+      "books_cost": 0,
+      "total_cost": 1.4657120000000003,
+      "stress_jit": {
+        "n": 72,
+        "correct": 63,
+        "flagged": 3,
+        "silent": 6,
+        "correct_ci": [
+          0.7791873780725083,
+          0.9328229170689444
+        ],
+        "silent_ci": [
+          0.03875189713049035,
+          0.17012555271233995
+        ],
+        "cost_per_run": 0.0041865,
+        "p50_ms": 165.0
+      },
+      "stress_llm_only": {
+        "n": 36,
+        "correct": 33,
+        "flagged": 0,
+        "silent": 3,
+        "correct_ci": [
+          0.7817298972308114,
+          0.9712519107287082
+        ],
+        "silent_ci": [
+          0.0287480892712918,
+          0.21827010276918848
+        ],
+        "cost_per_run": 0.013651888888888889,
+        "p50_ms": 6076.5
+      },
+      "shadow": {
+        "checks": 45,
+        "mismatches": 3,
+        "cost": 0.6188880000000001
+      }
+    }
+  ],
+  "runs": {
+    "claude-sonnet-5-5": [
+      {
+        "id": "d7b72c1e",
+        "template": "price_of",
+        "params": {
+          "product": "Pruning Shears"
+        },
+        "ts": 1792889482.294087,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 213,
+        "cost": 0.013478,
+        "ok": true,
+        "result": {
+          "price": "$19.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Pruning Shears"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 8136,
+        "correct": true,
+        "suite": "stress",
+        "mode": "original",
+        "kind": "warmup",
+        "reason": ""
+      },
+      {
+        "id": "a2470627",
+        "template": "price_of",
+        "params": {
+          "product": "Wireless Mouse"
+        },
+        "ts": 1792889490.430933,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5691,
+        "tokens_out": 214,
+        "cost": 0.013522,
+        "ok": true,
+        "result": {
+          "price": "$19.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Wireless Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "compiled_after": 1,
+        "ms": 6111,
+        "correct": true,
+        "suite": "stress",
+        "mode": "original",
+        "kind": "warmup",
+        "reason": ""
+      },
+      {
+        "id": "dc1608c5",
+        "template": "stock_for",
+        "params": {
+          "term": "Headlamp"
+        },
+        "ts": 1792889496.542573,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5630,
+        "tokens_out": 221,
+        "cost": 0.01347,
+        "ok": true,
+        "result": {
+          "stock": 31
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Headlamp"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5415,
+        "correct": true,
+        "suite": "stress",
+        "mode": "original",
+        "kind": "warmup",
+        "reason": ""
+      },
+      {
+        "id": "b3baf806",
+        "template": "stock_for",
+        "params": {
+          "term": "Kettle"
+        },
+        "ts": 1792889501.958858,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5619,
+        "tokens_out": 222,
+        "cost": 0.013458,
+        "ok": true,
+        "result": {
+          "stock": 14
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "compiled_after": 1,
+        "ms": 6157,
+        "correct": true,
+        "suite": "stress",
+        "mode": "original",
+        "kind": "warmup",
+        "reason": ""
+      },
+      {
+        "id": "281816c6",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889508.120976,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4179,
+        "tokens_out": 159,
+        "cost": 0.009948,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 5917,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s"
+      },
+      {
+        "id": "cc4657fa",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889514.038692,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.013716,
+          "llm_calls": 4,
+          "ms": 6736
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 164,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "0e8af962",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889520.971953,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4093,
+        "tokens_out": 155,
+        "cost": 0.009736,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 5627,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s"
+      },
+      {
+        "id": "36e3a4e2",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889526.600055,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013592,
+          "llm_calls": 4,
+          "ms": 6829
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 164,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "36a1e8c1",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889533.627323,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5710,
+        "tokens_out": 225,
+        "cost": 0.01367,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 7005,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "ad70a141",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889540.633303,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 8908,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "edf0f239",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889549.544523,
+        "tier": "deopt",
+        "deopt_step": 0,
+        "version": 1,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 213,
+        "cost": 0.013478,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 6805,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": "deoptimizing at step 0: selector #q not visible within 1s"
+      },
+      {
+        "id": "18a60f92",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889556.350815,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.013892,
+          "llm_calls": 4,
+          "ms": 6205
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "3ff4b6e7",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889562.751935,
+        "tier": "deopt",
+        "deopt_step": 0,
+        "version": 1,
+        "llm_calls": 4,
+        "tokens_in": 5611,
+        "tokens_out": 219,
+        "cost": 0.013412,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 6917,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": "deoptimizing at step 0: selector #q not visible within 1s"
+      },
+      {
+        "id": "137a988e",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889569.670423,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013208,
+          "llm_calls": 4,
+          "ms": 6195
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "36cae34a",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889576.061734,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5698,
+        "tokens_out": 221,
+        "cost": 0.013606,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 5812,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "cdc65666",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889581.87453,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 6900,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "77f3757e",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889588.777719,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4181,
+        "tokens_out": 160,
+        "cost": 0.009962,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 4796,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}"
+      },
+      {
+        "id": "9ce414b0",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889593.575337,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.013716,
+          "llm_calls": 4,
+          "ms": 6506
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 163,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "2a498848",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889600.2790442,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4093,
+        "tokens_out": 155,
+        "cost": 0.009736,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 6401,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}"
+      },
+      {
+        "id": "13dbd947",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889606.681482,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013208,
+          "llm_calls": 4,
+          "ms": 6012
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "35c8c4a9",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889612.889887,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 213,
+        "cost": 0.013478,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 8159,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "74fba29a",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889621.0495071,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6521,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "ff1eb515",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889627.574064,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "3825"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "3825"
+          },
+          "cost": 0.013454,
+          "llm_calls": 4,
+          "ms": 6253
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "1a30ceba",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889634.021673,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "699"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "699"
+          },
+          "cost": 0.013536,
+          "llm_calls": 4,
+          "ms": 5693
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 163,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "2f28a2a7",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889639.911732,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 73
+          },
+          "cost": 0.01376,
+          "llm_calls": 4,
+          "ms": 6941
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 164,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "d499a343",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889647.0503738,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013204,
+          "llm_calls": 4,
+          "ms": 7144
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "a060a09c",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889654.390829,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5672,
+        "tokens_out": 211,
+        "cost": 0.013454,
+        "ok": true,
+        "result": {
+          "price": "3825"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5594,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "2f9c8f47",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889659.9857001,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5666,
+        "tokens_out": 238,
+        "cost": 0.013712,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6989,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "1e422ed0",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889666.978146,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "14"
+        },
+        "error": "",
+        "flag": "shadow mismatch: compiled {'price': '14'} vs interpreted {'price': '$38.25'}",
+        "shadow": {
+          "match": false,
+          "interpreted": {
+            "price": "$38.25"
+          },
+          "cost": 0.013668,
+          "llm_calls": 4,
+          "ms": 6816
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": false,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "667f9a5f",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889673.989416,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5738,
+        "tokens_out": 256,
+        "cost": 0.014036,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Gel Pen Pack"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6618,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "5d366d4c",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889680.608972,
+        "tier": "deopt",
+        "deopt_step": 3,
+        "version": 1,
+        "llm_calls": 2,
+        "tokens_in": 2602,
+        "tokens_out": 175,
+        "cost": 0.006954,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": "data drift at step 3: finalize: stock '$19.99' is not an integer",
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "backed_off": 2,
+        "ms": 6356,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": "deoptimizing at step 3: finalize: stock '$19.99' is not an integer"
+      },
+      {
+        "id": "161f01b0",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889686.9659038,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5649,
+        "tokens_out": 259,
+        "cost": 0.013888,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": "compiled v1 suspended after an unfixable guard failure: finalize: stock '$19.99' is not an integer",
+        "shadow": null,
+        "backoff": true,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Skillet"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6745,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "c7f19c0e",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889693.712544,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 232,
+        "cost": 0.013668,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6015,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "50fa1b68",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889699.7281122,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5641,
+        "tokens_out": 271,
+        "cost": 0.013992,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6487,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "9ed613eb",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889706.218092,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$38.25"
+          },
+          "cost": 0.014178,
+          "llm_calls": 4,
+          "ms": 6805
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 160,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "f662f911",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889713.2161942,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.014272,
+          "llm_calls": 4,
+          "ms": 7688
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "8495d5b2",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889721.0987341,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 73
+          },
+          "cost": 0.014128,
+          "llm_calls": 4,
+          "ms": 7020
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "9caf81d9",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889728.31501,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.014324,
+          "llm_calls": 4,
+          "ms": 5774
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "7aef0bb7",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889734.2852962,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 6024,
+        "tokens_out": 213,
+        "cost": 0.014178,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5631,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "e4e4bbf5",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889739.9172668,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5961,
+        "tokens_out": 219,
+        "cost": 0.014112,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6251,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "llm_only",
+        "trial": 1,
+        "reason": ""
+      },
+      {
+        "id": "f28118fb",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889746.1719959,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4175,
+        "tokens_out": 157,
+        "cost": 0.00992,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 5462,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s"
+      },
+      {
+        "id": "64dea6ee",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889751.635391,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.0137,
+          "llm_calls": 4,
+          "ms": 5971
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 164,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "cc2b8fdb",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889757.8039832,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4085,
+        "tokens_out": 151,
+        "cost": 0.00968,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 5284,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s"
+      },
+      {
+        "id": "7b08318e",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889763.0888572,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013426,
+          "llm_calls": 4,
+          "ms": 7066
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 160,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "75fcdc33",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889770.3485289,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5710,
+        "tokens_out": 225,
+        "cost": 0.01367,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 6087,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "30b04b09",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889776.4368582,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 5547,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "759098d6",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889781.987251,
+        "tier": "deopt",
+        "deopt_step": 0,
+        "version": 1,
+        "llm_calls": 4,
+        "tokens_in": 5701,
+        "tokens_out": 222,
+        "cost": 0.013622,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 7174,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": "deoptimizing at step 0: selector #q not visible within 1s"
+      },
+      {
+        "id": "6be6e654",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889789.162315,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.013764,
+          "llm_calls": 4,
+          "ms": 5967
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 163,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "e60e1083",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889795.3263118,
+        "tier": "deopt",
+        "deopt_step": 0,
+        "version": 1,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 6800,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": "deoptimizing at step 0: selector #q not visible within 1s"
+      },
+      {
+        "id": "738dd46e",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889802.127349,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.0134,
+          "llm_calls": 4,
+          "ms": 5901
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "3786c351",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889808.222247,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5710,
+        "tokens_out": 225,
+        "cost": 0.01367,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 8736,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "26dfbc67",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889816.959698,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 5826,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "fd4ec0ab",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889822.789739,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4171,
+        "tokens_out": 155,
+        "cost": 0.009892,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 4461,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}"
+      },
+      {
+        "id": "af3a2e36",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889827.251607,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.0137,
+          "llm_calls": 4,
+          "ms": 6253
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 165,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "aac9adac",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889833.7047172,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4085,
+        "tokens_out": 151,
+        "cost": 0.00968,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 4804,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}"
+      },
+      {
+        "id": "d6b6b471",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889838.510123,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013576,
+          "llm_calls": 4,
+          "ms": 7415
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "044570b8",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889846.119615,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 213,
+        "cost": 0.013478,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5833,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "757a3179",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889851.9537978,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5614,
+        "tokens_out": 220,
+        "cost": 0.013428,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5406,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "1cb96a98",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889857.3628821,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "3825"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "3825"
+          },
+          "cost": 0.013454,
+          "llm_calls": 4,
+          "ms": 6457
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "a2cf9102",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889864.014385,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "699"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "699"
+          },
+          "cost": 0.013536,
+          "llm_calls": 4,
+          "ms": 5745
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 163,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "c8b0a20d",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889869.956382,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 73
+          },
+          "cost": 0.013616,
+          "llm_calls": 4,
+          "ms": 5829
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 165,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "45fe1dff",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889875.984299,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013204,
+          "llm_calls": 4,
+          "ms": 5620
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "eb943426",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889881.7995489,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5672,
+        "tokens_out": 211,
+        "cost": 0.013454,
+        "ok": true,
+        "result": {
+          "price": "3825"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5732,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "17f382d3",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889887.533,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5660,
+        "tokens_out": 236,
+        "cost": 0.01368,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6557,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "ed6d7330",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889894.0929449,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "14"
+        },
+        "error": "",
+        "flag": "shadow mismatch: compiled {'price': '14'} vs interpreted {'price': '$38.25'}",
+        "shadow": {
+          "match": false,
+          "interpreted": {
+            "price": "$38.25"
+          },
+          "cost": 0.013922,
+          "llm_calls": 4,
+          "ms": 6251
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 163,
+        "correct": false,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "1488e5ae",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889900.541209,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5711,
+        "tokens_out": 237,
+        "cost": 0.013792,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Gel Pen Pack"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6034,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "9621ce36",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889906.5768802,
+        "tier": "deopt",
+        "deopt_step": 3,
+        "version": 1,
+        "llm_calls": 2,
+        "tokens_in": 2604,
+        "tokens_out": 160,
+        "cost": 0.006808,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": "data drift at step 3: finalize: stock '$19.99' is not an integer",
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "backed_off": 2,
+        "ms": 3474,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": "deoptimizing at step 3: finalize: stock '$19.99' is not an integer"
+      },
+      {
+        "id": "14ae2ec6",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889910.052822,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5574,
+        "tokens_out": 243,
+        "cost": 0.013578,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": "compiled v1 suspended after an unfixable guard failure: finalize: stock '$19.99' is not an integer",
+        "shadow": null,
+        "backoff": true,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Skillet"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6370,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "538cd024",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889916.425312,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 232,
+        "cost": 0.013668,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6045,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "4418bb43",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889922.4716318,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5665,
+        "tokens_out": 289,
+        "cost": 0.01422,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 7013,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "4a79016a",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889929.487992,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$38.25"
+          },
+          "cost": 0.014178,
+          "llm_calls": 4,
+          "ms": 5936
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "8c56fb09",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889935.619476,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.0144,
+          "llm_calls": 4,
+          "ms": 5921
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 165,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "b5416476",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889941.7393239,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 73
+          },
+          "cost": 0.014544,
+          "llm_calls": 4,
+          "ms": 6622
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 164,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "e50d7673",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889948.5590541,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.014388,
+          "llm_calls": 4,
+          "ms": 6219
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 164,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "8221b926",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889954.9765382,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 6057,
+        "tokens_out": 224,
+        "cost": 0.014354,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6126,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "2b99aa29",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889961.10391,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5922,
+        "tokens_out": 206,
+        "cost": 0.013904,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6066,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "llm_only",
+        "trial": 2,
+        "reason": ""
+      },
+      {
+        "id": "e6a8cdc3",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889967.1728268,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4171,
+        "tokens_out": 155,
+        "cost": 0.009892,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 6137,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s"
+      },
+      {
+        "id": "e6c37847",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792889973.310861,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.0137,
+          "llm_calls": 4,
+          "ms": 6129
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 163,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "5458f48a",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889979.636599,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4085,
+        "tokens_out": 151,
+        "cost": 0.00968,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 5257,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": "deoptimizing at step 1: selector #search-btn not visible within 1s"
+      },
+      {
+        "id": "38a499de",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792889984.894858,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013208,
+          "llm_calls": 4,
+          "ms": 5615
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 157,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "86038e59",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792889990.700415,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5806,
+        "tokens_out": 257,
+        "cost": 0.014182,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 6503,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "7d497e6f",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792889997.204418,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 5766,
+        "correct": true,
+        "suite": "stress",
+        "mode": "redesign",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "654565aa",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890002.973431,
+        "tier": "deopt",
+        "deopt_step": 0,
+        "version": 1,
+        "llm_calls": 4,
+        "tokens_in": 5701,
+        "tokens_out": 222,
+        "cost": 0.013622,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 7692,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": "deoptimizing at step 0: selector #q not visible within 1s"
+      },
+      {
+        "id": "cde5a91d",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792890010.667309,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.013748,
+          "llm_calls": 4,
+          "ms": 6202
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 177,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "3298c93a",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890017.088894,
+        "tier": "deopt",
+        "deopt_step": 0,
+        "version": 1,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 6456,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": "deoptimizing at step 0: selector #q not visible within 1s"
+      },
+      {
+        "id": "8efb173e",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792890023.546898,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.0134,
+          "llm_calls": 4,
+          "ms": 6499
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "7136f1f2",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890030.243934,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5701,
+        "tokens_out": 222,
+        "cost": 0.013622,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 9041,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "c9f19c48",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890039.2863228,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5608,
+        "tokens_out": 218,
+        "cost": 0.013396,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#query",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#go-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#product-grid",
+            "args": {}
+          }
+        ],
+        "ms": 5766,
+        "correct": true,
+        "suite": "stress",
+        "mode": "rename_all",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "d3926f55",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890045.0574431,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4171,
+        "tokens_out": 155,
+        "cost": 0.009892,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 4716,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}"
+      },
+      {
+        "id": "d01fee53",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792890049.7746189,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.013732,
+          "llm_calls": 4,
+          "ms": 6267
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 160,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "603bdeb1",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890056.236001,
+        "tier": "deopt",
+        "deopt_step": 1,
+        "version": 1,
+        "llm_calls": 3,
+        "tokens_in": 4091,
+        "tokens_out": 154,
+        "cost": 0.009722,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "recompiled_to": 2,
+        "ms": 4584,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": "deoptimizing at step 1: fingerprint mismatch on #search-btn: {'label': 'Find'}"
+      },
+      {
+        "id": "80fd093c",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792890060.821662,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 2,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013624,
+          "llm_calls": 4,
+          "ms": 5783
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 177,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "72e666ac",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890066.82631,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 213,
+        "cost": 0.013478,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5859,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "468fbc64",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890072.685997,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5572,
+        "tokens_out": 206,
+        "cost": 0.013204,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6260,
+        "correct": true,
+        "suite": "stress",
+        "mode": "relabel",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "c4380666",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890078.949402,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "3825"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "3825"
+          },
+          "cost": 0.013454,
+          "llm_calls": 4,
+          "ms": 6333
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 161,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "7efaf618",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792890085.4778821,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "699"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "699"
+          },
+          "cost": 0.013536,
+          "llm_calls": 4,
+          "ms": 6078
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 165,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "b0518808",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890091.756366,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 73
+          },
+          "cost": 0.0132,
+          "llm_calls": 4,
+          "ms": 6065
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "bd6e49a0",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792890098.017022,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.013204,
+          "llm_calls": 4,
+          "ms": 5619
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 169,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "ad4f82ed",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890103.839085,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5672,
+        "tokens_out": 211,
+        "cost": 0.013454,
+        "ok": true,
+        "result": {
+          "price": "3825"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6248,
+        "correct": false,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "08360bb0",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890110.087992,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5570,
+        "tokens_out": 206,
+        "cost": 0.0132,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5878,
+        "correct": true,
+        "suite": "stress",
+        "mode": "cents",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "e10a2f57",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890115.9707751,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "14"
+        },
+        "error": "",
+        "flag": "shadow mismatch: compiled {'price': '14'} vs interpreted {'price': '$38.25'}",
+        "shadow": {
+          "match": false,
+          "interpreted": {
+            "price": "$38.25"
+          },
+          "cost": 0.013908,
+          "llm_calls": 4,
+          "ms": 5935
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 178,
+        "correct": false,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "92bcc72d",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792890122.119307,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5711,
+        "tokens_out": 233,
+        "cost": 0.013752,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Gel Pen Pack"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6110,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "cfe49113",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890128.2303739,
+        "tier": "deopt",
+        "deopt_step": 3,
+        "version": 1,
+        "llm_calls": 2,
+        "tokens_in": 2600,
+        "tokens_out": 157,
+        "cost": 0.00677,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": "data drift at step 3: finalize: stock '$19.99' is not an integer",
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "backed_off": 2,
+        "ms": 3781,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": "deoptimizing at step 3: finalize: stock '$19.99' is not an integer"
+      },
+      {
+        "id": "e415a217",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792890132.013123,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5574,
+        "tokens_out": 242,
+        "cost": 0.013568,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": "compiled v1 suspended after an unfixable guard failure: finalize: stock '$19.99' is not an integer",
+        "shadow": null,
+        "backoff": true,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Skillet"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6032,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "ea33a5fe",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890138.047446,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5674,
+        "tokens_out": 233,
+        "cost": 0.013678,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6260,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "668a4beb",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890144.307965,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5614,
+        "tokens_out": 262,
+        "cost": 0.013848,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6003,
+        "correct": true,
+        "suite": "stress",
+        "mode": "swap",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "d1cf5f5a",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890150.3148422,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$38.25"
+          },
+          "cost": 0.014178,
+          "llm_calls": 4,
+          "ms": 5752
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 162,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "ded5a0ab",
+        "template": "price_of",
+        "params": {
+          "product": "Gel Pen Pack"
+        },
+        "ts": 1792890156.278164,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "price": "$6.99"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "price": "$6.99"
+          },
+          "cost": 0.0144,
+          "llm_calls": 4,
+          "ms": 5805
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "product"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 171,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "f75d1940",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890162.2881348,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 73
+          },
+          "cost": 0.01448,
+          "llm_calls": 4,
+          "ms": 7342
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 165,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 1,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "b0b3d473",
+        "template": "stock_for",
+        "params": {
+          "term": "Skillet"
+        },
+        "ts": 1792890169.831846,
+        "tier": "compiled",
+        "deopt_step": null,
+        "version": 1,
+        "llm_calls": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cost": 0.0,
+        "ok": true,
+        "result": {
+          "stock": 40
+        },
+        "error": "",
+        "flag": null,
+        "shadow": {
+          "match": true,
+          "interpreted": {
+            "stock": 40
+          },
+          "cost": 0.014452,
+          "llm_calls": 4,
+          "ms": 5960
+        },
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "slot": "term"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 163,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "jit",
+        "attempt": 2,
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "d94691b8",
+        "template": "price_of",
+        "params": {
+          "product": "Copper Kettle"
+        },
+        "ts": 1792890175.990046,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 6120,
+        "tokens_out": 245,
+        "cost": 0.01469,
+        "ok": true,
+        "result": {
+          "price": "$38.25"
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Copper Kettle"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 6029,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      },
+      {
+        "id": "4fcad23c",
+        "template": "stock_for",
+        "params": {
+          "term": "Mouse"
+        },
+        "ts": 1792890182.0194402,
+        "tier": "interpreted",
+        "deopt_step": null,
+        "version": null,
+        "llm_calls": 4,
+        "tokens_in": 5958,
+        "tokens_out": 218,
+        "cost": 0.014096,
+        "ok": true,
+        "result": {
+          "stock": 73
+        },
+        "error": "",
+        "flag": null,
+        "shadow": null,
+        "model": "claude-sonnet-5-5",
+        "trace": [
+          {
+            "step": 0,
+            "action": "fill",
+            "selector": "#q",
+            "args": {
+              "text": "Mouse"
+            }
+          },
+          {
+            "step": 1,
+            "action": "click",
+            "selector": "#search-btn",
+            "args": {}
+          },
+          {
+            "step": 2,
+            "action": "extract_table",
+            "selector": "#results",
+            "args": {}
+          }
+        ],
+        "ms": 5520,
+        "correct": true,
+        "suite": "stress",
+        "mode": "decoy",
+        "kind": "llm_only",
+        "trial": 3,
+        "reason": ""
+      }
+    ]
+  }
+}
