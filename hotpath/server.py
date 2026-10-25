@@ -15,7 +15,7 @@ from pydantic import BaseModel
 from hotpath import hotness, shop, store, tasks
 
 app = FastAPI(title="Hotpath")
-SITE = {"redesign": False}
+SITE = {"redesign": False, "mode": None}
 STATIC = Path(__file__).resolve().parent.parent / "static"
 
 
@@ -86,14 +86,26 @@ WORKER = Worker()
 
 @app.get("/shop", response_class=HTMLResponse)
 def shop_page(q: str = "", category: str = ""):
-    return shop.render(q, category, SITE["redesign"])
+    return shop.render(q, category, SITE["redesign"], SITE.get("mode"))
 
 
 @app.post("/toggle")
 def toggle():
+    SITE["mode"] = None
     SITE["redesign"] = not SITE["redesign"]
     BUS.emit("toggle", f"site redesign {'ON' if SITE['redesign'] else 'OFF'}", redesign=SITE["redesign"])
     return {"redesign": SITE["redesign"]}
+
+
+@app.post("/mode/{name}")
+def set_mode(name: str):
+    """Stress-test modes (see shop.render). "original"/"redesign" behave like the toggle."""
+    if name not in shop.MODES:
+        return {"error": f"unknown mode {name!r}", "modes": shop.MODES}
+    SITE["redesign"] = name != "original"
+    SITE["mode"] = None if name in ("original", "redesign") else name
+    BUS.emit("toggle", f"site mode {name}", redesign=SITE["redesign"])
+    return {"mode": name}
 
 
 # ---------- dashboard ----------
@@ -120,6 +132,7 @@ def api_run(req: RunRequest):
 def api_reset():
     store.reset()
     SITE["redesign"] = False
+    SITE["mode"] = None
     BUS.clear()
     BUS.emit("reset", "state cleared: runs, hot.json, compiled/; redesign OFF")
     return {"ok": True}

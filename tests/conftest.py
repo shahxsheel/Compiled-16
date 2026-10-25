@@ -53,6 +53,6 @@ def fresh(server_url):
     from hotpath.server import SITE
 
     store.reset()
-    SITE["redesign"] = False
+    SITE["redesign"], SITE["mode"] = False, None
     yield
-    SITE["redesign"] = False
+    SITE["redesign"], SITE["mode"] = False, None

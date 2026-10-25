@@ -44,7 +44,7 @@ SNAPSHOT_JS = r"""
   };
   const label = el => {
     const t = el.tagName.toLowerCase();
-    const l = el.getAttribute('aria-label') || el.getAttribute('placeholder') ||
+    const l = el.getAttribute('aria-label') || el.getAttribute('title') || el.getAttribute('placeholder') ||
       (['input', 'select', 'textarea', 'table'].includes(t) ? (el.getAttribute('name') || '') : el.innerText);
     return (l || '').trim().replace(/\s+/g, ' ').slice(0, 60);
   };
@@ -57,8 +57,10 @@ SNAPSHOT_JS = r"""
     if (tag === 'input') { item.type = el.type; item.value = el.value; }
     if (tag === 'select') { item.value = el.value; item.options = [...el.options].map(o => o.text); }
     if (tag === 'table') {
-      item.columns = [...el.querySelectorAll('thead th')].map(th => th.innerText.trim());
-      item.rows = el.querySelectorAll('tbody tr').length;
+      const head = [...el.querySelectorAll('thead th')].map(th => th.innerText.trim());
+      // Key/value tables (<tr><th>Key</th><td>Value</td></tr>) have no header row: list their keys instead.
+      item.columns = head.length ? head : [...el.querySelectorAll('tr > th:first-child')].map(th => th.innerText.trim());
+      item.rows = head.length ? el.querySelectorAll('tbody tr').length : 1;
     }
     out.push(item);
   }
@@ -81,8 +83,23 @@ EXTRACT_JS = r"""
 (sel) => {
   const t = document.querySelector(sel);
   if (!t) return null;
-  const cols = [...t.querySelectorAll('thead th')].map(th => th.innerText.trim().toLowerCase());
-  const rows = [...t.querySelectorAll('tbody tr')].map(tr => [...tr.querySelectorAll('td')].map(td => td.innerText.trim()))
+  const norm = el => el.innerText.trim();
+  const trs = [...t.querySelectorAll('tr')];
+  let cols = [...t.querySelectorAll('thead th')].map(th => norm(th).toLowerCase());
+  let body = [...t.querySelectorAll('tbody tr')];
+  if (!cols.length) {
+    // Key/value table: every row is <th>key</th><td>value</td> -> one row object.
+    if (trs.length && trs.every(tr => tr.querySelectorAll('th').length === 1 && tr.querySelectorAll('td').length === 1)) {
+      const row = Object.fromEntries(trs.map(tr => [norm(tr.querySelector('th')).toLowerCase(), norm(tr.querySelector('td'))]));
+      return { columns: Object.keys(row), rows: [row] };
+    }
+    // Header row made of <th> cells without a <thead>.
+    if (trs.length && trs[0].querySelectorAll('th').length && !trs[0].querySelectorAll('td').length) {
+      cols = [...trs[0].querySelectorAll('th')].map(th => norm(th).toLowerCase());
+      body = trs.slice(1);
+    }
+  }
+  const rows = body.map(tr => [...tr.querySelectorAll('td')].map(norm))
     .filter(cells => cells.length === cols.length)
     .map(cells => Object.fromEntries(cols.map((c, i) => [c, cells[i]])));
   return { columns: cols, rows };

@@ -26,7 +26,7 @@ def normalize(steps: list[dict]) -> list[dict]:
 
 
 def slot(steps: list[dict], params: dict) -> list[dict]:
-    """Replace fill text that equals a param value (case-insensitive) with a named slot."""
+    """Replace fill text, or a click target's label, that equals a param value (case-insensitive) with a named slot."""
     out = []
     for s in steps:
         args = dict(s.get("args", {}))
@@ -34,6 +34,14 @@ def slot(steps: list[dict], params: dict) -> list[dict]:
             for name, value in params.items():
                 if str(args["text"]).strip().lower() == str(value).strip().lower():
                     args = {"slot": name}
+                    break
+        elif s["action"] == "click":
+            # A click on the element labelled with a param value (e.g. a book title link) picks its
+            # target by that param, so the target is resolved by label at run time, not by position.
+            label = s.get("fingerprint", {}).get("label", "").strip().lower()
+            for name, value in params.items():
+                if label and label == str(value).strip().lower():
+                    args = {"target_slot": name}
                     break
         out.append(dict(s, args=args))
     return out
@@ -43,8 +51,15 @@ def unslot(steps: list[dict], params: dict) -> list[dict]:
     return [dict(s, args={"text": params[s["args"]["slot"]]}) if "slot" in s.get("args", {}) else s for s in steps]
 
 
+def _target(s: dict) -> str:
+    """Selector, or for a param-targeted click the element kind (its position varies with the param)."""
+    if "target_slot" in s.get("args", {}):
+        return f'{s["fingerprint"]["tag"]}[{s["fingerprint"]["role"]}] labelled {{{s["args"]["target_slot"]}}}'
+    return s["selector"]
+
+
 def signature(steps: list[dict]) -> str:
-    shape = [[s["action"], s["selector"], s.get("args", {})] for s in steps]
+    shape = [[s["action"], _target(s), s.get("args", {})] for s in steps]
     return hashlib.sha1(json.dumps(shape, sort_keys=True).encode()).hexdigest()[:10]
 
 

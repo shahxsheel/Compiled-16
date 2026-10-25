@@ -89,6 +89,25 @@ On the dashboard, pick `price_of {product}`:
 - Correctness (compiled/deopt output == expected interpreted output): **100%** (60/60 runs succeeded)
 - Total cost: **$0.113** for 60 runs, versus about $0.83 if every run had been interpreted. Compiled runs are about **50x faster** at p50.
 
+## Live testing beyond the demo
+
+`compare.py` runs three live suites per model and writes `compare.json` / [`compare.md`](compare.md):
+the 60-run shop benchmark, six stress-test site changes against a shared compiled v1 (each also run by the LLM alone as a baseline), and a 9-title sequence on **books.toscrape.com**, a real public scraping sandbox.
+
+```bash
+.venv/bin/python compare.py --models claude-sonnet-5-5 claude-sonnet-4-6   # ~$1.50, ~15 min
+```
+
+| | Sonnet 5.5 | Sonnet 4.6 (older) |
+|---|---:|---:|
+| Interpreted p50 / cost per run | 6.27 s / $0.0140 | 5.79 s / $0.0184 |
+| Compiled p50 / cost per run | 136 ms / $0 | 132 ms / $0 |
+| Deopts recovered | 11/11 | 11/11 |
+| Shop bench correct, cost (vs all-interpreted) | 100%, $0.114 (vs $0.834) | 100%, $0.156 (vs $1.106) |
+| toscrape books correct | 9/9 | 9/9 |
+
+Both models behave the same: Hotpath recovers from every *structural* change (renamed elements at step 0 or 1, relabelled button, decoy table). It is **fooled by changes in meaning**: with prices shown in cents, or the Price/Stock headers swapped, every guard passes and compiled code returns a wrong price (the LLM alone gets the swap right). The locked price regex `^\$?\d+(\.\d{2})?$` accepts `3825` and `52`; tightening it to `^\$\d+\.\d{2}$` would turn both into deopts. Two real-site bugs found and fixed along the way are in DECISIONS.md (param-targeted clicks, side exits).
+
 ## Design notes
 
 Every judgment call is logged one line at a time in [DECISIONS.md](DECISIONS.md). The spec is in [SPEC.md](SPEC.md).

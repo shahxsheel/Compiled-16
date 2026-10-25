@@ -23,3 +23,13 @@
 - bench.py runs in its own state dir (.hotpath/bench) so it never clobbers the demo; it writes bench.json at the project root, which the dashboard and README read. Params vary per run so compiled runs are tested on inputs the interpreter never saw.
 - Tier indicator shows the compiled version (e.g. "v2 · 137ms · 0 LLM calls"), and Reset clears the server event buffer and the on-page log, so a fresh demo starts with an empty log even after a reload.
 - Verified the full demo sequence in the real dashboard UI with the real model (headless Playwright clicking Run/Toggle/Reset); screenshot saved as docs/dashboard-deopt.png.
+
+## Real-site and stress testing (after M5)
+- Third-party test target: books.toscrape.com (a public scraping sandbox), approved by the user as an exception to "never visit third-party sites"; the agent visits only that site.
+- Templates may set start_url, expected table columns, price field and price regex; /shop templates keep the locked defaults (name/price/stock and ^\$?\d+(\.\d{2})?$).
+- extract_table also reads key/value tables (<tr><th>key</th><td>value</td></tr>) as one row; element labels prefer aria-label, then the title attribute (toscrape truncates link text).
+- Site-specific "fill, click, extract" guidance moved from the system prompt into each /shop template's hint, so the agent gets no /shop hints on other sites.
+- Param-targeted clicks: a click whose element label equals a param value is slotted (target_slot); compiled code resolves it at run time with find_by_label(), and the signature uses the element kind instead of its position. Without this, toscrape compiled code returned the first book's price for every title with no guard failing.
+- Two guard-failure kinds: "structure" (the page changed: deopt, splice, recompile) and "input" (a param-targeted element is not on the page: side exit to the interpreter from the start page, compiled code kept). Without this, a book on page 2 spliced the agent's category browsing into the trace and every later run deoptimized.
+- Model is configurable (HOTPATH_MODEL, or AnthropicLLM(model)); Sonnet 5.5 uses thinking between_tools, while Sonnet 4.6 omits the thinking parameter (no thinking). Cost uses per-model list prices.
+- Stress modes on /shop (POST /mode/{name}): rename_all, relabel, cents, swap, decoy; compare.py runs them live per model against a shared compiled v1, plus an LLM-only baseline on each changed site.

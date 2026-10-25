@@ -53,36 +53,68 @@ aside form { flex-direction: column; }
 """
 
 
-def render(q: str = "", category: str = "", redesign: bool = False) -> str:
+MODES = ["original", "redesign", "rename_all", "relabel", "cents", "swap", "decoy"]
+
+
+def render(q: str = "", category: str = "", redesign: bool = False, mode: str | None = None) -> str:
+    """mode overrides redesign. Adversarial modes for stress tests:
+    rename_all: redesign + the search inputs renamed too (#q -> #query) so a trace breaks at step 0
+    relabel:    original ids, but the submit button text changes (fingerprint mismatch only)
+    cents:      prices rendered as integer cents ("1999") instead of "$19.99"
+    swap:       the Price and Stock header labels are swapped (values stay put)
+    decoy:      a promo table with the same columns is inserted above the results
+    """
+    mode = mode or ("redesign" if redesign else "original")
     rows = search(q, category)
     cat = category or "All"
     opts = "".join(
         f'<option{" selected" if c == cat else ""}>{escape(c)}</option>' for c in ["All", *CATEGORIES]
     )
     qv = escape(q or "")
+    q_id, cat_id = ("query", "cat") if mode == "rename_all" else ("q", "category")
     # The form contract (q/category inputs) is stable; the submit button and table change on redesign.
-    if not redesign:
+    if mode not in ("redesign", "rename_all"):
+        button = "Find" if mode == "relabel" else "Search"
         form = f"""<form id="search-form" class="search-bar" method="get" action="/shop">
-  <input id="q" name="q" type="search" aria-label="Search products" placeholder="Search products" value="{qv}">
-  <select id="category" name="category" aria-label="Category">{opts}</select>
-  <button id="search-btn" class="btn" type="submit">Search</button>
+  <input id="{q_id}" name="q" type="search" aria-label="Search products" placeholder="Search products" value="{qv}">
+  <select id="{cat_id}" name="category" aria-label="Category">{opts}</select>
+  <button id="search-btn" class="btn" type="submit">{button}</button>
 </form>"""
         cols = ["name", "price", "stock"]
         table_attrs = 'id="results" class="results"'
     else:
         form = f"""<form id="finder" class="finder-panel" method="get" action="/shop">
-  <input id="q" name="q" type="search" aria-label="Search products" placeholder="Search products" value="{qv}">
-  <select id="category" name="category" aria-label="Category">{opts}</select>
+  <input id="{q_id}" name="q" type="search" aria-label="Search products" placeholder="Search products" value="{qv}">
+  <select id="{cat_id}" name="category" aria-label="Category">{opts}</select>
   <button id="go-btn" class="cta-primary" type="submit">Go</button>
 </form>"""
         cols = ["stock", "name", "price"]
         table_attrs = 'id="product-grid" class="grid-v2"'
-    head = "".join(f"<th>{c.capitalize()}</th>" for c in cols)
-    body = "".join(
-        "<tr>" + "".join(f"<td>{escape(str(p[c]))}</td>" for c in cols) + "</tr>" for p in rows
-    ) or f'<tr><td colspan="3" class="empty">No products found</td></tr>'
-    table = f'<table {table_attrs} aria-label="Results"><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>'
-    if not redesign:
+
+    def header(c):
+        if mode == "swap" and c in ("price", "stock"):
+            c = "stock" if c == "price" else "price"
+        return c.capitalize()
+
+    def cell(p, c):
+        if mode == "cents" and c == "price":
+            return p["price"].replace("$", "").replace(".", "")
+        return str(p[c])
+
+    def make_table(attrs, label, items):
+        head = "".join(f"<th>{header(c)}</th>" for c in cols)
+        body = "".join(
+            "<tr>" + "".join(f"<td>{escape(cell(p, c))}</td>" for c in cols) + "</tr>" for p in items
+        ) or f'<tr><td colspan="3" class="empty">No products found</td></tr>'
+        return f'<table {attrs} aria-label="{label}"><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>'
+
+    table = make_table(table_attrs, "Results", rows)
+    if mode == "decoy":
+        deals = [{"name": "Deal: Mystery Box", "price": "$9.99", "stock": 999, "category": ""},
+                 {"name": "Deal: Gift Card", "price": "$25.00", "stock": 500, "category": ""}]
+        promo = make_table('id="deals" class="results"', "Today's deals", deals)
+        table = f"<h3>Today's deals</h3>{promo}<h3>Results</h3>{table}"
+    if mode not in ("redesign", "rename_all"):
         layout = f'<main><div class="content">{form}{table}</div></main>'
     else:
         layout = f'<main><div class="content">{table}</div><aside><h3>Find products</h3>{form}</aside></main>'

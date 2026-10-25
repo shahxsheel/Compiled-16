@@ -32,7 +32,7 @@ def test_page_loads(ui):
     assert page.title() == "Hotpath"
     assert page.locator("h1").inner_text() == "Hotpath"
     assert page.locator("#tier").get_attribute("data-tier") == "idle"
-    assert page.locator("#template option").count() == 3
+    assert page.locator("#template option").count() == len(__import__("hotpath.tasks").tasks.TEMPLATES)
     assert errors == []
 
 

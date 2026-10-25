@@ -3,13 +3,13 @@ import json
 import types
 from pathlib import Path
 
-from hotpath import store
+from hotpath import store, tasks
 
 HEADER = '''"""Hotpath compiled trace: {template} v{version}.
 
 Generated deterministically from a recorded trace (signature {sig}). Do not edit.
 """
-from hotpath.guards import GuardFailure, guard_element, guard_table, select_option
+from hotpath.guards import GuardFailure, find_by_label, guard_element, guard_table, select_option
 from hotpath.tasks import FINALIZERS
 
 TEMPLATE = {template!r}
@@ -35,6 +35,13 @@ def generate(template_id: str, steps: list[dict], version: int, sig: str) -> str
         desc = f'{s["action"]} {fp["tag"]} "{fp["label"]}"'
         if "slot" in s["args"]:
             desc += f" <- {{{s['args']['slot']}}}"
+        if "target_slot" in s["args"]:
+            slot = s["args"]["target_slot"]
+            lines.append(f'    # step {k}: click {fp["tag"]} labelled {{{slot}}}')
+            lines.append(f"    sel = find_by_label(page, {k}, {fp['tag']!r}, {fp['role']!r}, params[{slot!r}])")
+            lines.append("    page.click(sel, timeout=3000)")
+            lines.append("    page.wait_for_load_state('load')")
+            continue
         lines.append(f"    # step {k}: {desc}")
         lines.append(f"    guard_element(page, {k}, {sel!r}, {json.dumps(fp, sort_keys=True)})")
         if s["action"] == "click":
@@ -45,7 +52,10 @@ def generate(template_id: str, steps: list[dict], version: int, sig: str) -> str
         elif s["action"] == "fill":
             lines.append(f"    page.fill({sel!r}, {_value(s)}, timeout=3000)")
         elif s["action"] == "extract_table":
-            lines.append(f"    tables.append(guard_table(page, {k}, {sel!r}))")
+            spec = tasks.table_spec(template_id)
+            extra = "" if spec == tasks.table_spec("price_of") else \
+                f", columns={spec['columns']!r}, price_field={spec['price_field']!r}, price_re={spec['price_re']!r}"
+            lines.append(f"    tables.append(guard_table(page, {k}, {sel!r}{extra}))")
         else:
             raise ValueError(f"cannot compile action {s['action']!r}")
     n = len(steps)
@@ -53,7 +63,7 @@ def generate(template_id: str, steps: list[dict], version: int, sig: str) -> str
     lines.append("    try:")
     lines.append(f"        return FINALIZERS[{template_id!r}](tables, params)")
     lines.append("    except GuardFailure as e:")
-    lines.append(f"        raise GuardFailure({n}, e.reason)")
+    lines.append(f"        raise GuardFailure({n}, e.reason, e.kind)")
     return "\n".join(lines) + "\n"
 
 

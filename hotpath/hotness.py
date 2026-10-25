@@ -18,14 +18,14 @@ def record(template_id: str, raw_steps: list[dict], params: dict) -> tuple[list[
     t["traces"].setdefault(sig, steps)
     t["successes"] += 1
     store.save("hot.json", hot)
-    info = {"sig": sig, "count": t["counts"][sig], "successes": t["successes"]}
+    info = {"sig": sig, "count": t["counts"][sig], "successes": t["successes"], "compile_sig": sig}
     if template_id in hot["compiled"]:
         return None, info
     if t["counts"][sig] >= HOT_N:
         return steps, info
     if t["successes"] >= 3:
         shortest = min(t["traces"], key=lambda s: len(t["traces"][s]))
-        info["sig"] = shortest
+        info["compile_sig"] = shortest
         return t["traces"][shortest], info
     return None, info
 

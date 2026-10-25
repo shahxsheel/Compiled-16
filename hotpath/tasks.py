@@ -1,6 +1,9 @@
 """Task templates, output schemas, and hand-written finalizers."""
 from hotpath import shop
-from hotpath.guards import GuardFailure
+from hotpath.guards import EXPECTED_COLUMNS, PRICE_RE, GuardFailure
+
+SHOP_HINT = ("Be efficient: fill the search box or filter, click the submit button, "
+             "call extract_table on the results table, then call done.")
 
 TEMPLATES = {
     "price_of": {
@@ -13,6 +16,7 @@ TEMPLATES = {
             "additionalProperties": False,
         },
         "default": "Pruning Shears",
+        "hint": SHOP_HINT,
     },
     "top3_in": {
         "param": "category",
@@ -29,6 +33,7 @@ TEMPLATES = {
             "maxItems": 3,
         },
         "default": "Kitchen",
+        "hint": SHOP_HINT,
     },
     "stock_for": {
         "param": "term",
@@ -40,8 +45,36 @@ TEMPLATES = {
             "additionalProperties": False,
         },
         "default": "Headlamp",
+        "hint": SHOP_HINT,
+    },
+    # A real third-party site (a public scraping sandbox): no search box, key/value product table, prices in GBP.
+    "book_price": {
+        "param": "title",
+        "start_url": "https://books.toscrape.com/",
+        "goal": "Find the price (incl. tax) of the book titled '{title}'. Return it exactly as shown, e.g. £12.34.",
+        "schema": {
+            "type": "object",
+            "properties": {"price": {"type": "string", "description": "Price incl. tax exactly as shown, e.g. £12.34"}},
+            "required": ["price"],
+            "additionalProperties": False,
+        },
+        "default": "Tipping the Velvet",
+        "columns": ["price (incl. tax)"],
+        "price_field": "price (incl. tax)",
+        "price_re": r"^£\d+\.\d{2}$",
     },
 }
+
+
+def start_url(template_id: str, base_url: str) -> str:
+    return TEMPLATES[template_id].get("start_url") or f"{base_url}/shop"
+
+
+def table_spec(template_id: str) -> dict:
+    """What guard_table checks for this template (defaults: the /shop table)."""
+    t = TEMPLATES[template_id]
+    return {"columns": t.get("columns", sorted(EXPECTED_COLUMNS)), "price_field": t.get("price_field", "price"),
+            "price_re": t.get("price_re", PRICE_RE.pattern)}
 
 
 def goal(template_id: str, params: dict) -> str:
@@ -118,11 +151,21 @@ def finalize_stock_for(tables, params):
     raise GuardFailure(-1, f"finalize: no row matching {params['term']!r}")
 
 
-FINALIZERS = {"price_of": finalize_price_of, "top3_in": finalize_top3_in, "stock_for": finalize_stock_for}
+def finalize_book_price(tables, params):
+    rows = _rows(tables)
+    if not rows or "price (incl. tax)" not in rows[0]:
+        raise GuardFailure(-1, "finalize: no 'price (incl. tax)' in the extracted table")
+    return {"price": rows[0]["price (incl. tax)"]}
+
+
+FINALIZERS = {"price_of": finalize_price_of, "top3_in": finalize_top3_in, "stock_for": finalize_stock_for,
+              "book_price": finalize_book_price}
 
 
 def ground_truth(template_id: str, params: dict):
-    """Expected answer computed straight from the catalog (used by bench/tests)."""
+    """Expected answer computed straight from the catalog (used by bench/tests). None if unknown."""
+    if template_id not in ("price_of", "top3_in", "stock_for"):
+        return None
     if template_id == "price_of":
         rows = [p for p in shop.CATALOG if p["name"].lower() == params["product"].lower()]
         return {"price": rows[0]["price"]} if rows else None

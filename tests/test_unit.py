@@ -109,5 +109,40 @@ def test_finalizers_on_fixture_tables():
             f[tid]([TABLE], params)
     with pytest.raises(GuardFailure):
         f["top3_in"]([{"columns": TABLE["columns"], "rows": TABLE["rows"][:2]}], {"category": "x"})
-    for tid in tasks.TEMPLATES:
+    for tid in ["price_of", "top3_in", "stock_for"]:
         assert tasks.validate(tid, f[tid]([TABLE], {"product": "Copper Kettle", "category": "K", "term": "Kettle"})) is None
+
+
+def test_click_on_param_labelled_element_becomes_target_slot():
+    link = lambda sel, title: {"step": 0, "action": "click", "selector": sel, "args": {}, "noop": False,
+                                "fingerprint": {"tag": "a", "role": "link", "label": title}}
+    tbl = step("extract_table", "table.kv")
+    a = trace.slot([link("li:nth-of-type(2) > a", "Tipping the Velvet"), tbl], {"title": "Tipping the Velvet"})
+    b = trace.slot([link("li:nth-of-type(3) > a", "Soumission"), tbl], {"title": "soumission"})
+    assert a[0]["args"] == {"target_slot": "title"}
+    assert trace.signature(a) == trace.signature(b)  # position differs, same signature
+    src = compiler.generate("book_price", trace.normalize(a), 1, "x")
+    assert "find_by_label(page, 0, 'a', 'link', params['title'])" in src
+    assert "nth-of-type(2)" not in src
+    # A click whose label is not a param stays a literal positional click.
+    c = trace.slot([link("#next", "next")], {"title": "Soumission"})
+    assert c[0]["args"] == {}
+
+
+def test_extract_key_value_table(rt):
+    page = rt.browser.new_page()
+    try:
+        page.set_content("<table class='kv'><tr><th>UPC</th><td>abc</td></tr><tr><th>Price (incl. tax)</th><td>£51.77</td></tr></table>")
+        t = dom.extract(page, "table.kv")
+        el = [e for e in dom.snapshot(page) if e["tag"] == "table"][0]
+    finally:
+        page.close()
+    assert t == {"columns": ["upc", "price (incl. tax)"], "rows": [{"upc": "abc", "price (incl. tax)": "£51.77"}]}
+    assert el["columns"] == ["UPC", "Price (incl. tax)"]
+    assert check_table(1, t, columns=["price (incl. tax)"], price_field="price (incl. tax)", price_re=r"^£\d+\.\d{2}$")
+
+
+def test_finalize_wrapper_preserves_guard_kind():
+    src = compiler.generate("price_of", trace.slot(trace.normalize(TRACE), {"product": "x"}), 1, "s")
+    assert "raise GuardFailure(3, e.reason, e.kind)" in src
+    assert GuardFailure(1, "r").kind == "structure"

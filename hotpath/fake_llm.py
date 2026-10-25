@@ -9,6 +9,7 @@ from types import SimpleNamespace
 from urllib.parse import parse_qs, urlparse
 
 from hotpath import tasks
+from hotpath.guards import GuardFailure
 
 LINE_RE = re.compile(r'^\[(\d+)\] (\w+)(?: type=\w+)? "([^"]*)"(?: value="([^"]*)")?')
 
@@ -51,7 +52,11 @@ class FakeLLM:
         table_data = re.search(r"^Table data: (.*)$", obs, re.M)
         if table_data:
             table = json.loads(table_data.group(1))
-            result = tasks.FINALIZERS[self.template_id]([table], self.params)
+            try:
+                result = tasks.FINALIZERS[self.template_id]([table], self.params)
+            except GuardFailure:  # the scripted agent cannot make sense of this table: it gives up
+                return SimpleNamespace(content=[SimpleNamespace(type="text", text="I can't read this table.")],
+                                       stop_reason="end_turn", usage=SimpleNamespace(input_tokens=900, output_tokens=20))
             call = _block("done", {"result": result}, self.n)
         elif not submitted and (inp.group(4) or "").lower() != value.lower():
             call = _block("fill", {"el": int(inp.group(1)), "text": value}, self.n)

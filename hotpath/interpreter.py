@@ -11,8 +11,8 @@ SYSTEM = """You operate a web page through tools to complete a task.
 The page is described as a numbered list of interactive elements and tables: [index] tag "label".
 Refer to elements only by their [index] from the LATEST listing; indexes are refreshed after every action.
 To pick an option in a <select>, use fill with the option text.
-Be efficient: fill the search box or filter, click the submit button, call extract_table on the results table,
-then call done with the answer in the required JSON shape. Do not repeat actions that already succeeded."""
+Use the fewest actions, then call done with the answer in the required JSON shape.
+Do not repeat actions that already succeeded."""
 
 
 def tool_defs(template_id: str) -> list[dict]:
@@ -63,10 +63,11 @@ class InterpResult:
     tokens_out: int = 0
     error: str = ""
     capped: bool = False
+    model: str = llm_mod.MODEL
 
     @property
     def cost(self) -> float:
-        return llm_mod.cost(self.tokens_in, self.tokens_out)
+        return llm_mod.cost(self.tokens_in, self.tokens_out, self.model)
 
 
 def observe(page) -> tuple[list[dict], str]:
@@ -85,10 +86,12 @@ def run(page, template_id, params, llm=None, emit=lambda *a, **k: None, complete
     """Run the agent loop on the page as it is now. With completed_steps, continue a deoptimized run."""
     llm = llm or llm_mod.get_llm()
     llm.bind(template_id, params)
-    res = InterpResult()
+    res = InterpResult(model=getattr(llm, "name", llm_mod.MODEL))
     first_step = len(completed_steps or [])
     els, obs = observe(page)
     intro = f"Task: {tasks.goal(template_id, params)}\n"
+    if tasks.TEMPLATES[template_id].get("hint"):
+        intro += tasks.TEMPLATES[template_id]["hint"] + "\n"
     if completed_steps:
         intro += (
             "Compiled code already completed these steps on this page (do not redo them unless needed):\n"
@@ -106,7 +109,7 @@ def run(page, template_id, params, llm=None, emit=lambda *a, **k: None, complete
         res.llm_calls += 1
         res.tokens_in += resp.usage.input_tokens
         res.tokens_out += resp.usage.output_tokens
-        content = [b.model_dump(exclude_none=True) if hasattr(b, "model_dump") else vars(b) for b in resp.content]
+        content = [b.model_dump(exclude_none=True) if hasattr(b, "model_dump") else dict(vars(b)) for b in resp.content]
         messages.append({"role": "assistant", "content": content})
         calls = [b for b in resp.content if b.type == "tool_use"]
         if not calls:

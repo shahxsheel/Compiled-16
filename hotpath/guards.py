@@ -1,15 +1,20 @@
 """Runtime guards used by compiled traces."""
 import re
+import time
 
 PRICE_RE = re.compile(r"^\$?\d+(\.\d{2})?$")
 EXPECTED_COLUMNS = {"name", "price", "stock"}
 
 
 class GuardFailure(Exception):
-    def __init__(self, step: int, reason: str):
+    """kind="structure": the page no longer matches the trace (deopt + splice + recompile).
+    kind="input": the page is fine but this run's param is not where the trace leads (side exit, keep the code)."""
+
+    def __init__(self, step: int, reason: str, kind: str = "structure"):
         super().__init__(f"step {step}: {reason}")
         self.step = step
         self.reason = reason
+        self.kind = kind
 
 
 def guard_element(page, step: int, selector: str, fingerprint: dict) -> None:
@@ -30,6 +35,21 @@ def guard_element(page, step: int, selector: str, fingerprint: dict) -> None:
         raise GuardFailure(step, f"fingerprint mismatch on {selector}: {diff}")
 
 
+def find_by_label(page, step: int, tag: str, role: str, text: str) -> str:
+    """Guard + resolve a param-targeted element: the visible <tag> with this role whose label equals text."""
+    from hotpath import dom
+
+    want = text.strip().lower()
+    deadline = time.monotonic() + 1.0
+    while True:
+        for e in dom.snapshot(page):
+            if e["tag"] == tag and e["role"] == role and e["label"].strip().lower() == want:
+                return e["selector"]
+        if time.monotonic() > deadline:
+            raise GuardFailure(step, f"no visible {tag} labelled {text!r} within 1s", kind="input")
+        time.sleep(0.1)
+
+
 def select_option(page, selector: str, text: str) -> None:
     """Choose a <select> option by its text, case-insensitively."""
     options = page.locator(f"{selector} option").all_inner_texts()
@@ -37,20 +57,21 @@ def select_option(page, selector: str, text: str) -> None:
     page.select_option(selector, label=label, timeout=3000)
 
 
-def check_table(step: int, table: dict | None) -> dict:
+def check_table(step: int, table: dict | None, columns=EXPECTED_COLUMNS, price_field="price", price_re=PRICE_RE) -> dict:
     """Expected columns present and every price well-formed."""
     if table is None:
         raise GuardFailure(step, "table not found")
-    missing = EXPECTED_COLUMNS - set(table["columns"])
+    missing = set(columns) - set(table["columns"])
     if missing:
         raise GuardFailure(step, f"table missing columns {sorted(missing)}")
+    pattern = re.compile(price_re) if isinstance(price_re, str) else price_re
     for r in table["rows"]:
-        if not PRICE_RE.match(r["price"]):
-            raise GuardFailure(step, f"price {r['price']!r} does not match {PRICE_RE.pattern}")
+        if not pattern.match(r[price_field]):
+            raise GuardFailure(step, f"{price_field} {r[price_field]!r} does not match {pattern.pattern}")
     return table
 
 
-def guard_table(page, step: int, selector: str) -> dict:
+def guard_table(page, step: int, selector: str, **spec) -> dict:
     from hotpath import dom
 
-    return check_table(step, dom.extract(page, selector))
+    return check_table(step, dom.extract(page, selector), **spec)
